@@ -3,16 +3,15 @@ sudo: false
 jdk: oraclejdk8
 script: mvn clean verify
 after_success:
-  - mvn clean test jacoco:report coveralls:report
+- mvn clean test jacoco:report coveralls:report
 before_deploy:
-  - mvn clean package -DskipTests=true -Dproject.finalName=$TRAVIS_TAG
+- mvn clean package -DskipTests=true -Dproject.finalName=$TRAVIS_TAG
 deploy:
   provider: releases
   api_key:
-    secure: ITHiZu3LdI2XZGjX+U/HGKvcazUZY+j0KmLh/Gpnm2hbcWGJ2pz90H945DC9y5dIGEUOtguKL9eCBb9ooHA0sB/PA312StbocxxKCGERb0MNjHyQxjmfUt3v1NvvMLdnC8tp9Jqa2e3g1OoVC5wcDdkuMY2ZEIgCONa5qbI0XG3cX2ndNhdmrs9aogiFQrbaTkesXJWsCtS1/CiM9xU/n2rOJr8De8F5417OUHIae8L3+OicLLIyjA5noQLgqbR0T1D1CugxqilD2rWlDO13H8jA0fhpLJdFLw6X/qiyeZOrSHd3f6EI2Y40VyQLz0yZqgGQ+t+zW5qLgoKyMgFIAfyZOqJyH5QpWkpJK0JEGN9sMcJvsajxudVyduYhzn85eO0pW8WXvHjvxUkuqTl7QyWGu6q9MhZeAZF/F/uUJX4ZZ+FCe37E5Mrcbf/3zR3Ons3CkKwPrK/+b9oA5PJdx05cTPvv5jvObrLrZLGuuNTzRYKirX3Hmh1c3LvWD7hLbX6Jd0fULBjfJYaAkmQ6XRakZwBg5/X2/TSG9xmbNwUfbrlplB/f7fc+nYuqAW+aUjLe51FsOd0Y8g3mmTb1T71OBbbtVIMTkCfL81ZmohWeAGjjeG38Ko63xVKSWELDl6X0WJCwJSXCHA5UTAcKBLzIyNQUHOJA+R7fNlslDws=
+    secure: Ucm9JvReChdS2uH6DnfdMbaeJmBN4ldFFThuqG3RJ5UUCbmFLODxPIDYucktWff2qN5e6rHv4bV/L+s5WCRhm3QDyonId9fttARRFlsP0ZFfDrAYwOmUiZYCjKGqrmAi06pCRFNCE8gpej6yhzsklhznTYk36CxRXsaQcE7j4D44b3ljulrbr+RNv79ZQl5OO/VFauraqmlqNntroxrL9szSRHSpM8slIsGXCWloF7LqwpCjVT49kml/l7pAR9wyHa0fr+bgLnqnLh8TfFPxq5lueao2oRv6Njib3vuZDWn7FUNdCYV7InvUwwwsH/GtsSdXvA5FdIIANI5i7dyOuWyyfSuf3GEPF3pMWqfVnWzoiIF0hc8supE2RhoIAV40snrTqGeiNRgdnLUe2Ejo5+2QQ4MVuORg4I8foI1ZNtsLEw61In3zzeVi3yZ27uGkdfObyMDoVfvyDMbMWCNoCbNtNSWaxJTe9ysKstHUG2lRDAfcl+rWDJPhScDiDWShSCJaaFS5ZXoTcqWHZrkbm0yUt3hTE61Of/9kXjEmwhP13jNL7dmwns+qT6Q3d4iy131edu5MXfa4DeyPCr6fLQjp56I6BY5w2p4qifqA66psIE58YfI1322FNxiFaKUDZQY/AiVgBmpVmqAUYqY5dKn9Vki+oxIs/LF/+nEl+Lk=
   file: target/$TRAVIS_TAG.jar
-  skip_cleanup: true
   on:
-    repo: shigakiriku/DroneSimulator
+    repo: dsajgiouawj/DroneSimulator
     all_branches: true
     tags: true
