@@ -1,1 +1,1 @@
-Main-Class: jp.ac.hiroshima_u.fu_midori.SSH2017.FxMain
+Main-Class: jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.gui.FxMain
