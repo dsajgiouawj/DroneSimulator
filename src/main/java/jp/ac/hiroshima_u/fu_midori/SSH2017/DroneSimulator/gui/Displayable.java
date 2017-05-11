@@ -1,8 +1,8 @@
 package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.gui;
 
+import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 
-import java.awt.geom.Point2D;
 
 /**
  * ドローンや人など点(丸)で表示するもの
