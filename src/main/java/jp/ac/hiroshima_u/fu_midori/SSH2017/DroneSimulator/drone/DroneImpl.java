@@ -2,18 +2,28 @@ package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone;
 
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.Victim;
+
+import java.util.List;
 
 /**
  * ドローンの実装です。
  *
  * @author 遠藤拓斗 on 2017/05/07.
  */
-public class DroneImpl implements Drone {
+public class DroneImpl implements Drone, DroneGUIInterface {
     private static final double SPEED = 16;//16[m/s]
     private double residualDistance = 0;//このターンの残り距離
     private double theta = 0;//向いている方向[rad]
     private Point2D point = new Point2D(0, 0);//現在位置
     private Point2D point0;//前回位置
+    private Camera camera;
+    private double viewRangeRadius;
+
+    public DroneImpl(double viewRangeRadius, List<Victim> victims) {
+        this.viewRangeRadius = viewRangeRadius;
+        this.camera = new Camera(viewRangeRadius, victims);
+    }
 
     public void goStraight() {
         goStraight(residualDistance);
@@ -38,6 +48,7 @@ public class DroneImpl implements Drone {
         point0 = point;
         point = point.add(direction.multiply(distance));
         residualDistance -= distance;
+        findPeople();
     }
 
     public void goToPoint(Point2D target) {
@@ -76,18 +87,19 @@ public class DroneImpl implements Drone {
         return residualDistance > 0;
     }
 
+
     public int numOfFoundPeopleWhileLastMove() {
         return 0;
     }
 
-    private Color color;
+    private Color color = Color.WHITE;
 
     public void setColor(Color color) {
         this.color = color;
     }
 
     public Color getColor() {
-        return color;
+        return this.color;
     }
 
     public Point2D getPoint0() {
@@ -95,10 +107,25 @@ public class DroneImpl implements Drone {
     }
 
     private void findPeople() {
-
+        camera.findPeople(point0, point);
     }
 
     public void nextTurn() {
         residualDistance = SPEED;
+    }
+
+    @Override
+    public double getX() {
+        return point.getX();
+    }
+
+    @Override
+    public double getY() {
+        return point.getY();
+    }
+
+    @Override
+    public double getViewRangeRadius() {
+        return viewRangeRadius;
     }
 }

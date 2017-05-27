@@ -5,6 +5,8 @@ import javafx.scene.paint.Color;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.number.IsCloseTo.closeTo;
 import static org.junit.Assert.assertThat;
@@ -20,7 +22,7 @@ public class DroneImplTest {
 
     @Before
     public void setUp() {
-        sut = new DroneImpl();
+        sut = new DroneImpl(30, new ArrayList<>());
         sut.nextTurn();
     }
 
@@ -214,6 +216,13 @@ public class DroneImplTest {
         sut.setColor(Color.RED);
         Color actual = sut.getColor();
         Color expected = Color.RED;
+        assertThat(actual, is(expected));
+    }
+
+    @Test
+    public void 初期状態でgetColorは白を返す() throws Exception {
+        Color actual = sut.getColor();
+        Color expected = Color.WHITE;
         assertThat(actual, is(expected));
     }
 

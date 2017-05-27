@@ -14,7 +14,7 @@ public interface Tactics {
      * インスタンス化してすぐにここにドローンが渡されます
      * @param drones ドローンのリスト
      */
-    void setDrones(List<Drone> drones);
+    void setDrones(List<? extends Drone> drones);
 
     /**
      * 1ターン実行します。

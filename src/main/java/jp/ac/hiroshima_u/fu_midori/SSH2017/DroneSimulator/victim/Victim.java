@@ -1,8 +1,7 @@
 package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim;
 
 import javafx.geometry.Point2D;
-import javafx.scene.paint.Color;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.gui.Displayable;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.placing.VictimGUIInterface;
 
 
 /**
@@ -10,10 +9,14 @@ import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.gui.Displayable;
  *
  * @author 遠藤拓斗 on 2017/05/11.
  */
-public class Victim implements Displayable {
+public class Victim implements VictimGUIInterface {
     private Point2D point;
+    /**
+     * 既に発見されているか
+     */
+    private boolean found = false;
 
-    Victim(Point2D point) {
+    public Victim(Point2D point) {
         this.point = point;
     }
 
@@ -21,11 +24,29 @@ public class Victim implements Displayable {
         return point;
     }
 
-    public Color getColor() {
-        return Color.BLUE;
+    /**
+     * 被災者を発見したことにする。
+     */
+    public void setFound() {
+        found = true;
     }
 
-    public double getRadius() {
-        return 2;
+    /**
+     * 既に発見されているかどうか。
+     *
+     * @return 発見されているならtrue 発見されていなければfalse
+     */
+    public boolean isFound() {
+        return found;
+    }
+
+    @Override
+    public double getX() {
+        return point.getX();
+    }
+
+    @Override
+    public double getY() {
+        return point.getY();
     }
 }

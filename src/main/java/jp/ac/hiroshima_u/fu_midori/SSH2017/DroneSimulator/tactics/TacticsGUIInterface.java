@@ -4,25 +4,32 @@ import javafx.scene.layout.VBox;
 
 /**
  * TacticsをGUIから利用するためのインタフェースです。
+ *
  * @author 遠藤拓斗 on 2017/05/11.
  */
-public interface GUITacticsInterface {
+public interface TacticsGUIInterface {
     /**
      * 情報を入力するのに必要なコントロールを配置します。
+     *
      * @param vBox このvBoxにコントロールを配置します
      */
     void makeGUI(VBox vBox);
 
     /**
      * 入力された情報をもとにTacticsを生成します。
+     *
+     * @param numDrone        ドローンの数
+     * @param viewRangeRadius カメラの視野の半径
+     * @param limitTime       ドローンの稼働時間
      * @return 生成したTactics
      */
-    Tactics getTactics();
+    Tactics getTactics(int numDrone, double viewRangeRadius, int limitTime);
 
     /**
      * このプラグインの説明をします。
      * 戻り値はプラグイン選択に使われるためユニークである必要があります。
      * 複数のプラグインが同じ文字列を返した場合はうまく動きません
+     *
      * @return 説明
      */
     String explain();

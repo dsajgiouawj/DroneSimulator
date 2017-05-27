@@ -1,12 +1,12 @@
-package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.positioning;
+package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.placing;
 
 import javafx.scene.layout.VBox;
 
 /**
- * positionVictimsをGUIから利用するためのインタフェースです。
+ * placingVictimsをGUIから利用するためのインタフェースです。
  * @author 遠藤拓斗 on 2017/05/11.
  */
-public interface GUIPositioningVictimsInterface {
+public interface PlacingVictimsGUIInterface {
     /**
      * 情報を入力するのに必要なコントロールを配置します。
      * @param vBox このvBoxにコントロールを配置します
@@ -14,10 +14,10 @@ public interface GUIPositioningVictimsInterface {
     void makeGUI(VBox vBox);
 
     /**
-     * 入力された情報をもとにpositioningVictimsを生成します。
-     * @return 生成したpositioningVictims
+     * 入力された情報をもとにplacingVictimsを生成します。
+     * @return 生成したplacingVictims
      */
-    positioningVictims getPositioningVictims();
+    PlacingVictims getPlacingVictims();
 
     /**
      * このプラグインの説明をします。
