@@ -3,6 +3,7 @@ package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.simulator;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.VBox;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.gui.controls.DoubleTextFieldWithLabel;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.gui.controls.FormattedTextFieldWithLabel;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.gui.controls.IntTextFieldWithLabel;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.importPlugin.ImportGUIPlugins;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.tactics.Tactics;
@@ -18,10 +19,10 @@ import java.util.stream.Collectors;
  * Created by 遠藤拓斗 on 2017/05/12.
  */
 public class SimulatorGUIInterface {
-    private static IntTextFieldWithLabel numDroneField = new IntTextFieldWithLabel("ドローンの数", 50);
-    private static IntTextFieldWithLabel populationField = new IntTextFieldWithLabel("人口", 1000);
-    private static IntTextFieldWithLabel limitTimeField = new IntTextFieldWithLabel("ドローンの稼働時間[s]", 1500);
-    private static DoubleTextFieldWithLabel viewRangeRadiusField = new DoubleTextFieldWithLabel("カメラの視野の半径[m]", 30);
+    private static FormattedTextFieldWithLabel<Integer> numDroneField = new IntTextFieldWithLabel("ドローンの数", 50);
+    private static FormattedTextFieldWithLabel<Integer> populationField = new IntTextFieldWithLabel("人口", 1000);
+    private static FormattedTextFieldWithLabel<Integer> limitTimeField = new IntTextFieldWithLabel("ドローンの稼働時間[s]", 1500);
+    private static FormattedTextFieldWithLabel<Double> viewRangeRadiusField = new DoubleTextFieldWithLabel("カメラの視野の半径[m]", 30);
 
     private static ChoiceBox tacticsChoicer = new ChoiceBox();
     private static ChoiceBox placingVictimsChoicer = new ChoiceBox();

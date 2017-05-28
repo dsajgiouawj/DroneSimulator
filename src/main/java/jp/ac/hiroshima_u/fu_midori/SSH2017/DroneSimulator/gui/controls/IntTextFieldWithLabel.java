@@ -8,10 +8,11 @@ import javafx.util.converter.IntegerStringConverter;
  *
  * @author 遠藤拓斗 on 2017/05/15.
  */
-public class IntTextFieldWithLabel extends FormattedTextFieldWithLabel {
+public class IntTextFieldWithLabel extends FormattedTextFieldWithLabel<Integer> {
     /**
      * コンストラクタ
-     * @param text ラベルのテキスト
+     *
+     * @param text         ラベルのテキスト
      * @param initialValue テキストフィールドの初期値
      */
     public IntTextFieldWithLabel(String text, int initialValue) {
@@ -20,9 +21,11 @@ public class IntTextFieldWithLabel extends FormattedTextFieldWithLabel {
 
     /**
      * テキストフィールドに入力された値を返します。
+     *
      * @return テキストフィールドに入力された値
      */
-    public int getValue() {
+    @Override
+    public Integer getValue() {
         return Integer.parseInt(getText());
     }
 }

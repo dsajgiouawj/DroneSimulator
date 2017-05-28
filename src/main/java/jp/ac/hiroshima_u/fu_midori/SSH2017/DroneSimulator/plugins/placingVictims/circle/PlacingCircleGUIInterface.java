@@ -3,6 +3,7 @@ package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.placingVictim
 import javafx.geometry.Point2D;
 import javafx.scene.layout.VBox;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.gui.controls.DoubleTextFieldWithLabel;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.gui.controls.FormattedTextFieldWithLabel;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.placing.PlacingVictims;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.placing.PlacingVictimsGUIInterface;
 
@@ -12,9 +13,9 @@ import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.placing.Placing
  * @author 遠藤拓斗 on 2017/05/17.
  */
 public class PlacingCircleGUIInterface implements PlacingVictimsGUIInterface {
-    private static DoubleTextFieldWithLabel centerXField = new DoubleTextFieldWithLabel("中心のx座標", 0);
-    private static DoubleTextFieldWithLabel centerYField = new DoubleTextFieldWithLabel("中心のy座標", 0);
-    private static DoubleTextFieldWithLabel radiusField = new DoubleTextFieldWithLabel("半径[m]", 1000);
+    private static FormattedTextFieldWithLabel<Double> centerXField = new DoubleTextFieldWithLabel("中心のx座標", 0);
+    private static FormattedTextFieldWithLabel<Double> centerYField = new DoubleTextFieldWithLabel("中心のy座標", 0);
+    private static FormattedTextFieldWithLabel<Double> radiusField = new DoubleTextFieldWithLabel("半径[m]", 1000);
 
     @Override
     public void makeGUI(VBox vBox) {

@@ -11,7 +11,7 @@ import javafx.scene.layout.Priority;
  *
  * @author 遠藤拓斗 on 2016/11/20.
  */
-public abstract class FormattedTextFieldWithLabel extends HBox {
+public abstract class FormattedTextFieldWithLabel<T> extends HBox {
     private Label label;
     private TextField textField;
 
@@ -37,4 +37,6 @@ public abstract class FormattedTextFieldWithLabel extends HBox {
     protected String getText() {
         return textField.getText();
     }
+
+    public abstract T getValue();
 }

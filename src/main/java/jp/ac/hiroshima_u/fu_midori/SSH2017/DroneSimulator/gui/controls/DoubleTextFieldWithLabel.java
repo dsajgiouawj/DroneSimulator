@@ -5,12 +5,14 @@ import javafx.util.converter.DoubleStringConverter;
 
 /**
  * 実数地の未入力できるラベル付きテキストフィールド
+ *
  * @author 遠藤拓斗 on 2017/05/15.
  */
-public class DoubleTextFieldWithLabel extends FormattedTextFieldWithLabel {
+public class DoubleTextFieldWithLabel extends FormattedTextFieldWithLabel<Double> {
     /**
      * コンストラクタ
-     * @param text ラベルのテキスト
+     *
+     * @param text         ラベルのテキスト
      * @param initialValue テキストフィールドの初期値
      */
     public DoubleTextFieldWithLabel(String text, double initialValue) {
@@ -19,9 +21,11 @@ public class DoubleTextFieldWithLabel extends FormattedTextFieldWithLabel {
 
     /**
      * テキストフィールドに入力された値を返します。
+     *
      * @return テキストフィールドに入力された値
      */
-    public double getValue() {
+    @Override
+    public Double getValue() {
         return Double.parseDouble(getText());
     }
 }

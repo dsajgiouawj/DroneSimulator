@@ -22,16 +22,18 @@ class SpiralTacticsDrone {
     /**
      * コンストラクタ
      *
-     * @param drone    操作するドローン
-     * @param numDrone ドローンの数
-     * @param id       ドローンのid
+     * @param drone           操作するドローン
+     * @param numDrone        ドローンの数
+     * @param id              ドローンのid
+     * @param viewRangeRadius ドローンの視野の半径
+     * @param searchRatio     探索割合
      */
-    SpiralTacticsDrone(Drone drone, int numDrone, int id, double viewRangeRadius) {
+    SpiralTacticsDrone(Drone drone, int numDrone, int id, double viewRangeRadius, double searchRatio) {
         this.drone = drone;
         this.numDrone = numDrone;
         this.id = id;
         targetTheta = 2 * Math.PI / numDrone * id;
-        a = 2 * numDrone * viewRangeRadius / (2 * Math.PI);
+        a = 2 * numDrone * viewRangeRadius / (2 * Math.PI) * (1 / searchRatio);
         setNextTarget();
     }
 
