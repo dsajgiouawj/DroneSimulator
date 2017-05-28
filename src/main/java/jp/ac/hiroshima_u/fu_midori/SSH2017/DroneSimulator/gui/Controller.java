@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -46,6 +47,8 @@ public class Controller implements Initializable {
     private VBox vBoxForTactics;
     @FXML
     private VBox vBoxForPlacingVictims;
+    @FXML
+    private Label label_time;
 
     private Simulator simulator;
 
@@ -100,6 +103,11 @@ public class Controller implements Initializable {
             gc.setFill(d.getColor());
             gc.fillOval(x, y, d.getViewRangeRadius() * 2 * zoom, d.getViewRangeRadius() * 2 * zoom);
         }
+        int time = simulator.getTime();
+        int hour = time / 3600;
+        int minute = time % 3600 / 60;
+        int second = time % 60;
+        label_time.setText(String.format("%d:%02d:%02d", hour, minute, second));
     }
 
     private void clearCanvas() {

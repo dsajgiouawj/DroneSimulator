@@ -20,6 +20,7 @@ public class Simulator {
     private List<Victim> victims;
     private Tactics tactics;
     private int residualTime;//残り時間
+    private int limitTime;
 
     Simulator(Tactics tactics, PlacingVictims placingVictims, int numDrone, int population, int limitTime, double viewRangeRadius) {
         this.victims = placingVictims.placeVictims(population);
@@ -30,6 +31,7 @@ public class Simulator {
         this.tactics = tactics;
         this.tactics.setDrones(drones);
         this.residualTime = limitTime;
+        this.limitTime = limitTime;
     }
 
     /**
@@ -74,5 +76,14 @@ public class Simulator {
         List<VictimGUIInterface> res = new ArrayList<>();
         res.addAll(victims);
         return res;
+    }
+
+    /**
+     * 現在の経過時間を取得
+     *
+     * @return 経過時間[s]
+     */
+    public int getTime() {
+        return limitTime - residualTime;
     }
 }
