@@ -2,7 +2,9 @@ package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone;
 
 import javafx.geometry.Point2D;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.Victim;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.VictimXComparator;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -15,6 +17,7 @@ import java.util.List;
 class Camera {
     private double viewRangeRadius;
     private List<Victim> victims;
+    private int numOfFoundVictimsWhileLastMovement = 0;
 
     /**
      * コンストラクタ
@@ -34,11 +37,37 @@ class Camera {
      * @param point1 終点
      */
     void findPeople(Point2D point0, Point2D point1) {
-        for (Victim victim : victims) {
+        numOfFoundVictimsWhileLastMovement = 0;
+        double minX, maxX;
+        minX = Math.min(point0.getX(), point1.getX()) - viewRangeRadius;
+        maxX = Math.max(point0.getX(), point1.getX()) + viewRangeRadius;
+        int leftIndex = Collections.binarySearch(victims, new Victim(new Point2D(minX - 0.000001, 0)), new VictimXComparator());
+        if (leftIndex < 0) {
+            leftIndex = -leftIndex - 1;
+        }
+        int rightIndex = Collections.binarySearch(victims, new Victim(new Point2D(maxX + 0.000001, 0)), new VictimXComparator());
+        if (rightIndex < 0) {
+            rightIndex = -rightIndex - 1;
+        }
+        for (int i = leftIndex; i < rightIndex; i++) {
+            Victim victim = victims.get(i);
             if (distance(point0, point1, victim.getPoint()) <= viewRangeRadius) {
+                if (!victim.isFound()) numOfFoundVictimsWhileLastMovement++;
                 victim.setFound();
             }
         }
+        /*
+        for (Victim victim : victims) {
+            if (distance(point0, point1, victim.getPoint()) <= viewRangeRadius) {
+                if (!victim.isFound()) numOfFoundVictimsWhileLastMovement++;
+                victim.setFound();
+            }
+        }
+        */
+    }
+
+    int getNumOfFoundVictimsWhileLastMovement() {
+        return numOfFoundVictimsWhileLastMovement;
     }
 
     /**

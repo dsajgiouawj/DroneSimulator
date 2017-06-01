@@ -1,4 +1,4 @@
-package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.gui;
+package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -23,11 +23,12 @@ public final class FxMain extends Application {
 
     /**
      * javafxのstartメソッド。
+     *
      * @param primaryStage primaryStage
      * @throws Exception Exception
      */
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("gui/main.fxml"));
         primaryStage.setTitle("Simulator");
         Scene scene = new Scene(root, 0, 0);
         primaryStage.setScene(scene);

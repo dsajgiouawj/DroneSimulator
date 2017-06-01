@@ -87,9 +87,8 @@ public class DroneImpl implements Drone, DroneGUIInterface {
         return residualDistance > 0;
     }
 
-
-    public int numOfFoundPeopleWhileLastMove() {
-        return 0;
+    public int getNumOfFoundVictimsWhileLastMovement() {
+        return camera.getNumOfFoundVictimsWhileLastMovement();
     }
 
     private Color color = Color.WHITE;

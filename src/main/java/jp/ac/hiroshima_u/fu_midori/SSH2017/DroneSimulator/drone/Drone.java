@@ -106,7 +106,7 @@ public interface Drone {
      * 直前のgo*メソッドの呼び出しで発見した被災者の数です
      * @return 被災者の数
      */
-    int numOfFoundPeopleWhileLastMove();
+    int getNumOfFoundVictimsWhileLastMovement();
 
     /**
      * GUI時に表示する色を設定します。

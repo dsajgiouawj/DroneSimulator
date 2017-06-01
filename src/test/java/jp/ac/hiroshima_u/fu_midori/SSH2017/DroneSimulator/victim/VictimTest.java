@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.number.IsCloseTo.closeTo;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -17,14 +18,20 @@ public class VictimTest {
 
     @Before
     public void setUp() {
-        sut = new Victim(new Point2D(1, 1));
+        sut = new Victim(new Point2D(1, 2));
     }
 
     @Test
     public void getPointで点を取得できる() throws Exception {
         Point2D actual = sut.getPoint();
-        Point2D expected = new Point2D(1, 1);
+        Point2D expected = new Point2D(1, 2);
         assertThat(actual, is(expected));
+    }
+
+    @Test
+    public void getXとgetYで座標を取得できる() throws Exception {
+        assertThat(sut.getX(), is(closeTo(1, 0.000001)));
+        assertThat(sut.getY(), is(closeTo(2, 0.000001)));
     }
 
     @Test

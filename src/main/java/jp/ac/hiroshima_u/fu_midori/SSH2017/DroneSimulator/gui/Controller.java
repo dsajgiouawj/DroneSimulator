@@ -80,8 +80,8 @@ public class Controller implements Initializable {
 
     public void onClick(ActionEvent actionEvent) {
         simulator = SimulatorGUIInterface.getSimulator();
-        drones = simulator.getDrones();
-        victims = simulator.getVictims();
+        drones = simulator.getDronesGUI();
+        victims = simulator.getVictimsGUI();
     }
 
     private void draw() {

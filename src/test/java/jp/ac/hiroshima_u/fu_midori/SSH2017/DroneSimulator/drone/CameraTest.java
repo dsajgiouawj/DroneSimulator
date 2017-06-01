@@ -18,16 +18,27 @@ import static org.junit.Assert.assertThat;
  */
 public class CameraTest {
     private Camera sut;
-    private ArrayList<Victim> victims;
+    private ArrayList<Victim> victims = new ArrayList<>();
 
     @Before
     public void setUp() throws Exception {
-        victims = new ArrayList<Victim>();
         victims.add(new Victim(new Point2D(-10, 9)));
         victims.add(new Victim(new Point2D(3, 0)));
         victims.add(new Victim(new Point2D(5, 2)));
         victims.add(new Victim(new Point2D(5, 10)));
         sut = new Camera(1, victims);
+    }
+
+    @Test
+    public void getNumOfFoundVictimsWhileLastMovementで発見人数を取得できる() throws Exception {
+        sut.findPeople(new Point2D(-9, 8), new Point2D(-9, 10));
+        int actual = sut.getNumOfFoundVictimsWhileLastMovement();
+        int expected = 1;
+        assertThat(actual, is(expected));
+        sut.findPeople(new Point2D(-9, 8), new Point2D(-9, 10));
+        actual = sut.getNumOfFoundVictimsWhileLastMovement();
+        expected = 0;
+        assertThat(actual, is(expected));
     }
 
     @Test

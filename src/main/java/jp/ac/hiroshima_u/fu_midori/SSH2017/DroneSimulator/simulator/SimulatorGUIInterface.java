@@ -57,10 +57,12 @@ public class SimulatorGUIInterface {
     }
 
     private static void makeTacticsGUI(int index) {
+        vBoxForTactics.getChildren().clear();
         tacticsPlugins.get(index).makeGUI(vBoxForTactics);
     }
 
     private static void makePlacingGUI(int index) {
+        vBoxForPlacingVictims.getChildren().clear();
         placingVictimsPlugins.get(index).makeGUI(vBoxForPlacingVictims);
     }
 

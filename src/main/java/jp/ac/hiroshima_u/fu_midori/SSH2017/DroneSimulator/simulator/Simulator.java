@@ -4,6 +4,7 @@ import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.DroneGUIInterfac
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.DroneImpl;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.tactics.Tactics;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.Victim;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.VictimXComparator;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.placing.PlacingVictims;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.placing.VictimGUIInterface;
 
@@ -24,6 +25,7 @@ public class Simulator {
 
     Simulator(Tactics tactics, PlacingVictims placingVictims, int numDrone, int population, int limitTime, double viewRangeRadius) {
         this.victims = placingVictims.placeVictims(population);
+        victims.sort(new VictimXComparator());
         this.drones = new ArrayList<>();
         for (int i = 0; i < numDrone; i++) {
             this.drones.add(new DroneImpl(viewRangeRadius, victims));
@@ -61,7 +63,7 @@ public class Simulator {
      *
      * @return ドローン
      */
-    public List<DroneGUIInterface> getDrones() {
+    public List<DroneGUIInterface> getDronesGUI() {
         List<DroneGUIInterface> res = new ArrayList<>();
         res.addAll(drones);
         return res;
@@ -72,10 +74,29 @@ public class Simulator {
      *
      * @return 被災者
      */
-    public List<VictimGUIInterface> getVictims() {
+    public List<VictimGUIInterface> getVictimsGUI() {
         List<VictimGUIInterface> res = new ArrayList<>();
         res.addAll(victims);
         return res;
+    }
+
+    /**
+
+     * ドローンを取得します
+     *
+     * @return ドローン
+     */
+    public List<DroneImpl> getDrones() {
+        return drones;
+    }
+
+    /**
+     * 被災者を取得します
+     *
+     * @return 被災者
+     */
+    public List<Victim> getVictims() {
+        return victims;
     }
 
     /**
@@ -86,4 +107,15 @@ public class Simulator {
     public int getTime() {
         return limitTime - residualTime;
     }
+
+
+    /**
+     * ドローンの最大稼働時間を取得
+     *
+     * @return ドローンの最大稼働時間
+     */
+    public int getLimitTime() {
+        return limitTime;
+    }
+
 }

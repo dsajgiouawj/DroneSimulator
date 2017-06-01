@@ -2,10 +2,12 @@ package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone;
 
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.Victim;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.number.IsCloseTo.closeTo;
@@ -19,10 +21,12 @@ import static org.junit.Assert.assertThat;
  */
 public class DroneImplTest {
     private DroneImpl sut;
+    private final double VIEW_RANGE_RADIUS = 30;
+    private List<Victim> victims = new ArrayList<>();
 
     @Before
     public void setUp() {
-        sut = new DroneImpl(30, new ArrayList<>());
+        sut = new DroneImpl(VIEW_RANGE_RADIUS, victims);
         sut.nextTurn();
     }
 
@@ -226,4 +230,34 @@ public class DroneImplTest {
         assertThat(actual, is(expected));
     }
 
+    @Test
+    public void getXでx座標getYでy座標を取得できる() throws Exception {
+        sut.setTheta(Math.PI / 3);
+        sut.goStraight(1);
+        double actualX = sut.getX();
+        double expectedX = 0.5;
+        assertThat(actualX, is(closeTo(expectedX, 0.000001)));
+        double actualY = sut.getY();
+        double expectedY = Math.sqrt(3) / 2;
+        assertThat(actualY, is(closeTo(expectedY, 0.000001)));
+    }
+
+    @Test
+    public void getViewRangeRadiusで視野の半径を取得できる() throws Exception {
+        double actual = sut.getViewRangeRadius();
+        assertThat(actual, is(VIEW_RANGE_RADIUS));
+    }
+
+    @Test
+    public void getNumOfFoundVictimsWhileLastFoundで前回発見した被災者数を取得できる() throws Exception {
+        victims.add(new Victim(new Point2D(3, 0)));
+        victims.add(new Victim(new Point2D(5, 2)));
+        victims.add(new Victim(new Point2D(100, 10)));
+        sut.goStraight(10);
+        int actual = sut.getNumOfFoundVictimsWhileLastMovement();
+        assertThat(actual, is(2));
+        sut.goStraight(5);
+        actual = sut.getNumOfFoundVictimsWhileLastMovement();
+        assertThat(actual, is(0));
+    }
 }

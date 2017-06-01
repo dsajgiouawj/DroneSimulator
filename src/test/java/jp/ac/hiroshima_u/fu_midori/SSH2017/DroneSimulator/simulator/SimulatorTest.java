@@ -71,13 +71,13 @@ public class SimulatorTest {
 
     @Test
     public void getDronesでドローンを取得できる() throws Exception {
-        List<DroneGUIInterface> drones = sut.getDrones();
+        List<DroneGUIInterface> drones = sut.getDronesGUI();
         assertThat(drones.size(), is(NUM_DRONE));
     }
 
     @Test
     public void getVictimsで被災者を取得できる() throws Exception {
-        List<VictimGUIInterface> victims = sut.getVictims();
+        List<VictimGUIInterface> victims = sut.getVictimsGUI();
         assertThat(victims.size(), is(POPULATION));
     }
 
