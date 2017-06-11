@@ -1,4 +1,4 @@
-package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.randomAndCallNeighborsTactics;
+package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.CallNeighborsAndSpiralTactics;
 
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.VBox;
@@ -16,19 +16,19 @@ import java.util.List;
 /**
  * RandomAndCallNeighborsTacticsをGUIから利用するためのインタフェース
  *
- * @author 遠藤拓斗 on 2017/05/30.
+ * @author 遠藤拓斗 on 2017/06/08.
  */
-public class RandomAndCallNeighborsTacticsGUIInterface implements TacticsGUIInterface {
+public class GUIInterface implements TacticsGUIInterface {
     private int turnInterval = 10;
     private double limitOfTurningAngle = 0.5;
     private FormattedTextFieldWithLabel<Integer> certainNumberField = new IntTextFieldWithLabel("一度に呼び出すドローン数", 5);
     private FormattedTextFieldWithLabel<Integer> thresholdTimeField = new IntTextFieldWithLabel("一定時間(最近の定義)", 10);
 
     private CheckBox useSpiral = new CheckBox("最初螺線探索をする");
-    private FormattedTextFieldWithLabel<Double> searchRatioField = new DoubleTextFieldWithLabel("探索割合(螺線)", 0.5);
+    private FormattedTextFieldWithLabel<Double> searchRatioField = new DoubleTextFieldWithLabel("探索割合(最初の螺線)", 0.5);
+    private FormattedTextFieldWithLabel<Double> searchRatio2Field = new DoubleTextFieldWithLabel("探索割合(呼び出された後の螺線)", 1);
 
     private VBox vBoxForFiltersManagement = new VBox();
-    private CheckBox callOnlyRandomWalkingOrSpiralDrones = new CheckBox("現在呼び出されて向かっているドローンは呼び出さない");
     private FiltersManagementGUIInterface fmgi = new FiltersManagementGUIInterface();
 
     @Override
@@ -38,8 +38,8 @@ public class RandomAndCallNeighborsTacticsGUIInterface implements TacticsGUIInte
                 thresholdTimeField,
                 useSpiral,
                 searchRatioField,
-                vBoxForFiltersManagement,
-                callOnlyRandomWalkingOrSpiralDrones);
+                searchRatio2Field,
+                vBoxForFiltersManagement);
     }
 
     @Override
@@ -47,13 +47,12 @@ public class RandomAndCallNeighborsTacticsGUIInterface implements TacticsGUIInte
         int thresholdTime = thresholdTimeField.getValue();
         FiltersManagement fm = fmgi.getFiltersManagement(thresholdTime, drones);
 
-        return new RandomAndCallNeighborsTactics(numDrone, viewRangeRadius, turnInterval, limitOfTurningAngle,
-                useSpiral.isSelected(), searchRatioField.getValue(), drones,
-                fm, certainNumberField.getValue(), callOnlyRandomWalkingOrSpiralDrones.isSelected());
+        return new CallNeighborsAndSpiralTactics(numDrone, viewRangeRadius, turnInterval, limitOfTurningAngle,
+                useSpiral.isSelected(), searchRatioField.getValue(), searchRatio2Field.getValue(), drones, fm, certainNumberField.getValue());
     }
 
     @Override
     public String explain() {
-        return "ランダムウォーク・呼び出し";
+        return "呼び出し後螺線探索";
     }
 }

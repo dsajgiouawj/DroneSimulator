@@ -21,21 +21,20 @@ import static org.junit.Assert.assertThat;
 public class SpiralTacticsTest {
     private SpiralTactics sut;
     private final int NUM_DRONE = 10;
+    private List<Drone> drones = new ArrayList<>();
 
     @Before
     public void setUp() throws Exception {
-        sut = new SpiralTactics(1, NUM_DRONE, 10);
-    }
-
-    @Test
-    public void executeTurnで各ドローンのexecuteTurnを呼び出す() throws Exception {
-        List<Drone> drones = new ArrayList<>();
         for (int i = 0; i < NUM_DRONE; i++) {
             DroneImpl drone = new DroneImpl(10, new ArrayList<>());
             drone.nextTurn();
             drones.add(drone);
         }
-        sut.setDrones(drones);
+        sut = new SpiralTactics(1, NUM_DRONE, 10, drones);
+    }
+
+    @Test
+    public void executeTurnで各ドローンのexecuteTurnを呼び出す() throws Exception {
         sut.executeTurn();
         for (int i = 0; i < NUM_DRONE; i++) {
             Point2D actual = drones.get(i).getPoint();
@@ -45,12 +44,12 @@ public class SpiralTacticsTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void コンストラクタでsearchRatioを一より大きくすると例外を送出() throws Exception {
-        SpiralTactics spiralTactics = new SpiralTactics(1.000001, NUM_DRONE, 10);
+        SpiralTactics spiralTactics = new SpiralTactics(1.000001, NUM_DRONE, 10, drones);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void コンストラクタでsearchRatioを零以下にすると例外を送出() throws Exception {
-        SpiralTactics spiralTactics = new SpiralTactics(0, NUM_DRONE, 10);
+        SpiralTactics spiralTactics = new SpiralTactics(0, NUM_DRONE, 10, drones);
     }
 
 }

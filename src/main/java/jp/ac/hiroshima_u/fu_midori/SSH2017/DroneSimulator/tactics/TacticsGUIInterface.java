@@ -1,6 +1,9 @@
 package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.tactics;
 
 import javafx.scene.layout.VBox;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.Drone;
+
+import java.util.List;
 
 /**
  * TacticsをGUIから利用するためのインタフェースです。
@@ -21,9 +24,10 @@ public interface TacticsGUIInterface {
      * @param numDrone        ドローンの数
      * @param viewRangeRadius カメラの視野の半径
      * @param limitTime       ドローンの稼働時間
+     * @param drones          ドローン
      * @return 生成したTactics
      */
-    Tactics getTactics(int numDrone, double viewRangeRadius, int limitTime);
+    Tactics getTactics(int numDrone, double viewRangeRadius, int limitTime, List<Drone> drones);
 
     /**
      * このプラグインの説明をします。

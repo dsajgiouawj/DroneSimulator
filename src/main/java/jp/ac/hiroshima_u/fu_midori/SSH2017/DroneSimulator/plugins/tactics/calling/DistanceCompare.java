@@ -1,6 +1,6 @@
-package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.randomAndCallNeighborsTactics.callingTactics;
+package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.calling;
 
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.randomAndCallNeighborsTactics.RandomDrone;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.Drone;
 
 /**
  * 距離を比較するためのクラス
@@ -9,11 +9,11 @@ import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.random
  */
 public class DistanceCompare implements Comparable<DistanceCompare> {
     public final double distance;
-    public final RandomDrone drone;
+    public final int id;
 
-    public DistanceCompare(double distance, RandomDrone drone) {
+    public DistanceCompare(double distance, Drone drone, int id) {
         this.distance = distance;
-        this.drone = drone;
+        this.id = id;
     }
 
     @Override

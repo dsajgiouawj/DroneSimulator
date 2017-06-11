@@ -1,5 +1,9 @@
 package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.tactics;
 
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.Drone;
+
+import java.util.List;
+
 /**
  * TacticsをCUIから利用するためのインタフェースです。
  *
@@ -25,7 +29,8 @@ public interface TacticsCUIInterface {
      * @param numDrone        ドローンの数
      * @param viewRangeRadius カメラの視野の半径
      * @param limitTime       ドローンの稼働時間
+     * @param drones          ドローン
      * @return Tactics
      */
-    Tactics getTactics(int numDrone, double viewRangeRadius, int limitTime);
+    Tactics getTactics(int numDrone, double viewRangeRadius, int limitTime, List<Drone> drones);
 }

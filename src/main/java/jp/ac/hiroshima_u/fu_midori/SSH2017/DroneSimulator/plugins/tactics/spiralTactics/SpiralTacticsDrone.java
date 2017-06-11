@@ -18,6 +18,7 @@ public class SpiralTacticsDrone {
     private Point2D target;
     private static final double dTheta = 2 * Math.PI / 1000;//1000分割
     private double a;//r=aθ
+    private final Point2D center;
 
     /**
      * コンストラクタ
@@ -27,20 +28,28 @@ public class SpiralTacticsDrone {
      * @param id              ドローンのid
      * @param viewRangeRadius ドローンの視野の半径
      * @param searchRatio     探索割合
+     * @param center          中心
      */
-    public SpiralTacticsDrone(Drone drone, int numDrone, int id, double viewRangeRadius, double searchRatio) {
+    public SpiralTacticsDrone(Drone drone, int numDrone, int id, double viewRangeRadius, double searchRatio, Point2D center) {
         this.drone = drone;
         this.numDrone = numDrone;
         this.id = id;
         targetTheta = 2 * Math.PI / numDrone * id;
         a = 2 * numDrone * viewRangeRadius / (2 * Math.PI) * (1 / searchRatio);
+        this.center = center;
         setNextTarget();
     }
+
+    public SpiralTacticsDrone(Drone drone, int numDrone, int id, double viewRangeRadius, double searchRatio) {
+        this(drone, numDrone, id, viewRangeRadius, searchRatio, Point2D.ZERO);
+    }
+
 
     private void setNextTarget() {
         targetTheta += dTheta;
         targetR = a * (targetTheta - (2 * Math.PI / numDrone * id));
         target = new Point2D(Math.cos(targetTheta) * targetR, Math.sin(targetTheta) * targetR);
+        target = target.add(center);
     }
 
     public void executeTurn() {

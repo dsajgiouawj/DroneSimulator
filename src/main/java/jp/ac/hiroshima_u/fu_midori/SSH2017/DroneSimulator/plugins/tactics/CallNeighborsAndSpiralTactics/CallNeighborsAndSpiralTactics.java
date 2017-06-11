@@ -1,4 +1,4 @@
-package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.randomAndCallNeighborsTactics;
+package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.CallNeighborsAndSpiralTactics;
 
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.Drone;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.calling.CallingACertainNumberOfDrones;
@@ -10,43 +10,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ランダムに動き発見した場合周りのドローンを呼び寄せる
+ * 発見したら他のドローンを呼び出し螺線探索
  *
- * @author 遠藤拓斗 on 2017/05/28.
+ * @author 遠藤拓斗 on 2017/06/07.
  */
-public class RandomAndCallNeighborsTactics implements Tactics {
+public class CallNeighborsAndSpiralTactics implements Tactics {
     private int numDrone;
     private double viewRangeRadius;
     private int turnInterval;
     private double limitOfTurningAngle;
-    private List<RandomDrone> drones = new ArrayList<>();
+    private List<DroneController> drones = new ArrayList<>();
     private SelectCalleeMediator selectCalleeMediator;
     private boolean useSpiral;
     private double searchRatio;
+    private double searchRatio2;
 
-    RandomAndCallNeighborsTactics(int numDrone, double viewRangeRadius, int turnInterval, double limitOfTurningAngle, boolean useSpiral, double searchRatio, List<Drone> drones, FiltersManagement filtersManagement, int certainNumber, boolean callOnlyRandomWalkingOrSpiral) {
+    CallNeighborsAndSpiralTactics(int numDrone, double viewRangeRadius, int turnInterval, double limitOfTurningAngle, boolean useSpiral, double searchRatio, double searchRatio2, List<Drone> drones, FiltersManagement filtersManagement, int certainNumber) {
         this.numDrone = numDrone;
         this.viewRangeRadius = viewRangeRadius;
         this.turnInterval = turnInterval;
         this.limitOfTurningAngle = limitOfTurningAngle;
         this.useSpiral = useSpiral;
         this.searchRatio = searchRatio;
-        this.selectCalleeMediator = new CallingACertainNumberOfDrones(drones, new RandomAndCallNeighborsCaller(this.drones), certainNumber, filtersManagement);
+        this.searchRatio2 = searchRatio2;
+        this.selectCalleeMediator = new CallingACertainNumberOfDrones(drones, new CallerImpl(this.drones), certainNumber, filtersManagement);
         setDrones(drones);
-        if (callOnlyRandomWalkingOrSpiral)
-            filtersManagement.addFilter(new CallingOnlyRandomWalkingOrSpiralDrones(this.drones));
+        filtersManagement.addFilter(new FilterSpiral2OrBeingCalledDrone(this.drones));
+        filtersManagement.addFilter(new CallIfNotNearFromThePastCallingPoints(drones, 1000));
     }
 
     private void setDrones(List<Drone> drones) {
         for (int i = 0; i < drones.size(); i++) {
-            this.drones.add(new RandomDrone(drones.get(i), numDrone, i, viewRangeRadius, turnInterval, limitOfTurningAngle, selectCalleeMediator, useSpiral, searchRatio));
+            this.drones.add(new DroneController(drones.get(i), numDrone, i, viewRangeRadius, turnInterval, limitOfTurningAngle, selectCalleeMediator, useSpiral, searchRatio, searchRatio2));
         }
     }
 
     @Override
     public void executeTurn() {
         selectCalleeMediator.before();
-        for (RandomDrone drone : drones) {
+        for (DroneController drone : drones) {
             drone.executeTurn();
         }
         selectCalleeMediator.after();

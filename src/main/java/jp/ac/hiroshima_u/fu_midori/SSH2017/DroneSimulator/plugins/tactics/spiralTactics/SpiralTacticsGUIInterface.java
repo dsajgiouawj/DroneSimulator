@@ -2,10 +2,13 @@ package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.spira
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.Drone;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.gui.controls.DoubleTextFieldWithLabel;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.gui.controls.FormattedTextFieldWithLabel;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.tactics.Tactics;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.tactics.TacticsGUIInterface;
+
+import java.util.List;
 
 /**
  * spiralTacticsをGUIから利用するためのインタフェース
@@ -22,12 +25,12 @@ public class SpiralTacticsGUIInterface implements TacticsGUIInterface {
     }
 
     @Override
-    public Tactics getTactics(int numDrone, double viewRangeRadius, int limitTime) {
+    public Tactics getTactics(int numDrone, double viewRangeRadius, int limitTime, List<Drone> drones) {
         double searchRatio = searchRatioField.getValue();
         if (!(0 < searchRatio && searchRatio <= 1)) {
             searchRatio = 1;
         }
-        return new SpiralTactics(searchRatio, numDrone, viewRangeRadius);
+        return new SpiralTactics(searchRatio, numDrone, viewRangeRadius, drones);
     }
 
     @Override

@@ -25,16 +25,16 @@ public class SpiralTactics implements Tactics {
      * @param viewRangeRadius ドローンの視野の半径
      * @throws IllegalArgumentException searchRatioが0以下または1より大きい時
      */
-    SpiralTactics(double searchRatio, int numDrone, double viewRangeRadius) throws IllegalArgumentException {
+    SpiralTactics(double searchRatio, int numDrone, double viewRangeRadius, List<Drone> drones) throws IllegalArgumentException {
         if (!(0 < searchRatio && searchRatio <= 1))
             throw new IllegalArgumentException("探索割合は0より大きく1下でなければいけませんが" + searchRatio + "が渡されました");
         this.searchRatio = searchRatio;
         this.numDrone = numDrone;
         this.viewRangeRadius = viewRangeRadius;
+        setDrones(drones);
     }
 
-    @Override
-    public void setDrones(List<? extends Drone> drones) {
+    private void setDrones(List<Drone> drones) {
         for (int i = 0; i < drones.size(); i++) {
             this.drones.add(new SpiralTacticsDrone(drones.get(i), numDrone, i, viewRangeRadius, searchRatio));
         }

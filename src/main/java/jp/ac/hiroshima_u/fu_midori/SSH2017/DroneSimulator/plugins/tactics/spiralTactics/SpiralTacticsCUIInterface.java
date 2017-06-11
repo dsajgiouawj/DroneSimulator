@@ -1,8 +1,10 @@
 package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.spiralTactics;
 
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.Drone;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.tactics.Tactics;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.tactics.TacticsCUIInterface;
 
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -25,7 +27,7 @@ public class SpiralTacticsCUIInterface implements TacticsCUIInterface {
     }
 
     @Override
-    public Tactics getTactics(int numDrone, double viewRangeRadius, int limitTime) {
-        return new SpiralTactics(searchRatio, numDrone, viewRangeRadius);
+    public Tactics getTactics(int numDrone, double viewRangeRadius, int limitTime, List<Drone> drones) {
+        return new SpiralTactics(searchRatio, numDrone, viewRangeRadius, drones);
     }
 }

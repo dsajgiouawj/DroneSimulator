@@ -1,11 +1,10 @@
 package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.simulator;
 
 import javafx.geometry.Point2D;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.Drone;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.DroneGUIInterface;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.DroneImpl;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.tactics.Tactics;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.Victim;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.placing.PlacingVictims;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.placing.VictimGUIInterface;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +14,6 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.*;
 
 /**
@@ -25,7 +23,6 @@ import static org.mockito.Mockito.*;
 public class SimulatorTest {
     private Simulator sut;
     private Tactics tactics = mock(Tactics.class);
-    private PlacingVictims placingVictims = mock(PlacingVictims.class);
     private final int NUM_DRONE = 5;
     private final int POPULATION = 20;
     private final int LIMIT_TIME = 100;
@@ -37,9 +34,11 @@ public class SimulatorTest {
         for (int i = 0; i < POPULATION; i++) {
             victims.add(new Victim(new Point2D(0, 0)));
         }
-        when(placingVictims.placeVictims(POPULATION)).thenReturn(victims);
-        sut = new Simulator(tactics, placingVictims, NUM_DRONE, POPULATION, LIMIT_TIME, VIEW_RANGE_RADIUS);
-        verify(tactics).setDrones(anyListOf(Drone.class));
+        List<DroneImpl> drones = new ArrayList<>();
+        for (int i = 0; i < NUM_DRONE; i++) {
+            drones.add(new DroneImpl(VIEW_RANGE_RADIUS, victims));
+        }
+        sut = new Simulator(tactics, LIMIT_TIME, drones, victims);
     }
 
     @Test
