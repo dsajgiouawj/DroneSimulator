@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * アルキメデスの螺旋を利用して隙間なく探索します
+ * アルキメデスの螺旋を利用して探索します
  *
  * @author 遠藤拓斗 on 2017/05/15.
  */

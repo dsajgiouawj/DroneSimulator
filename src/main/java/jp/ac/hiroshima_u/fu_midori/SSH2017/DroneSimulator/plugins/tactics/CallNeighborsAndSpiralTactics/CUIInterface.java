@@ -22,6 +22,7 @@ public class CUIInterface implements TacticsCUIInterface {
     private boolean useSpiral;
     private double searchRatio;
     private double searchRatio2;
+    private int timeToContinueSpiral2SinceLastFind;
     private FilterManagementCUIInterface fmci = new FilterManagementCUIInterface();
 
     @Override
@@ -31,6 +32,7 @@ public class CUIInterface implements TacticsCUIInterface {
                 "最初螺線探索をする(boolean)\n" +
                 "探索割合(最初の螺線)(double)" +
                 "探索割合(呼び出された後の螺線)" +
+                "最後に被災者を発見してから螺旋探索(呼び出された後)を続ける時間[s](int)" +
                 fmci.explain();
     }
 
@@ -42,6 +44,7 @@ public class CUIInterface implements TacticsCUIInterface {
         useSpiral = scanner.nextBoolean();
         searchRatio = scanner.nextDouble();
         searchRatio2 = scanner.nextDouble();
+        timeToContinueSpiral2SinceLastFind = scanner.nextInt();
         fmci.readInfo();
     }
 
@@ -49,6 +52,6 @@ public class CUIInterface implements TacticsCUIInterface {
     public Tactics getTactics(int numDrone, double viewRangeRadius, int limitTime, List<Drone> drones) {
 
         return new CallNeighborsAndSpiralTactics(numDrone, viewRangeRadius, turnInterval, limitOfTurningAngle,
-                useSpiral, searchRatio, searchRatio2, drones, fmci.getFilterManagement(thresholdTime, drones), certainNumber);
+                useSpiral, searchRatio, searchRatio2, drones, fmci.getFilterManagement(thresholdTime, drones), certainNumber, timeToContinueSpiral2SinceLastFind);
     }
 }

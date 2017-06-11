@@ -35,6 +35,6 @@ public class SpiralTacticsGUIInterface implements TacticsGUIInterface {
 
     @Override
     public String explain() {
-        return "螺旋探索(隙間なし)";
+        return "螺旋探索";
     }
 }

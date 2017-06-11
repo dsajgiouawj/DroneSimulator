@@ -24,8 +24,9 @@ public class CallNeighborsAndSpiralTactics implements Tactics {
     private boolean useSpiral;
     private double searchRatio;
     private double searchRatio2;
+    private int timeToContinueSpiral2SinceLastFind;
 
-    CallNeighborsAndSpiralTactics(int numDrone, double viewRangeRadius, int turnInterval, double limitOfTurningAngle, boolean useSpiral, double searchRatio, double searchRatio2, List<Drone> drones, FiltersManagement filtersManagement, int certainNumber) {
+    CallNeighborsAndSpiralTactics(int numDrone, double viewRangeRadius, int turnInterval, double limitOfTurningAngle, boolean useSpiral, double searchRatio, double searchRatio2, List<Drone> drones, FiltersManagement filtersManagement, int certainNumber, int timeToContinueSpiral2SinceLastFind) {
         this.numDrone = numDrone;
         this.viewRangeRadius = viewRangeRadius;
         this.turnInterval = turnInterval;
@@ -34,14 +35,15 @@ public class CallNeighborsAndSpiralTactics implements Tactics {
         this.searchRatio = searchRatio;
         this.searchRatio2 = searchRatio2;
         this.selectCalleeMediator = new CallingACertainNumberOfDrones(drones, new CallerImpl(this.drones), certainNumber, filtersManagement);
+        this.timeToContinueSpiral2SinceLastFind = timeToContinueSpiral2SinceLastFind;
         setDrones(drones);
         filtersManagement.addFilter(new FilterSpiral2OrBeingCalledDrone(this.drones));
-        filtersManagement.addFilter(new CallIfNotNearFromThePastCallingPoints(drones, 1000));
+        filtersManagement.addFilter(new CallIfNotNearFromThePastCallingPoints(drones, 500));
     }
 
     private void setDrones(List<Drone> drones) {
         for (int i = 0; i < drones.size(); i++) {
-            this.drones.add(new DroneController(drones.get(i), numDrone, i, viewRangeRadius, turnInterval, limitOfTurningAngle, selectCalleeMediator, useSpiral, searchRatio, searchRatio2));
+            this.drones.add(new DroneController(drones.get(i), numDrone, i, viewRangeRadius, turnInterval, limitOfTurningAngle, selectCalleeMediator, useSpiral, searchRatio, searchRatio2, timeToContinueSpiral2SinceLastFind));
         }
     }
 

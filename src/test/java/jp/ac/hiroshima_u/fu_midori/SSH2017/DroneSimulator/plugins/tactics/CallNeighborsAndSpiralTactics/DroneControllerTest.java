@@ -38,7 +38,7 @@ public class DroneControllerTest {
 
         @Before
         public void setUp() throws Exception {
-            sut = new DroneController(droneSpy, NUM_DRONE, ID, VIEW_RANGE_RADIUS, TURN_INTERVAL, LIMIT_OF_TURNING_ANGLE, selectCalleeMediator, true, SEARCH_RATIO, 0.5);
+            sut = new DroneController(droneSpy, NUM_DRONE, ID, VIEW_RANGE_RADIUS, TURN_INTERVAL, LIMIT_OF_TURNING_ANGLE, selectCalleeMediator, true, SEARCH_RATIO, 0.5, 10000);
             droneSpy.nextTurn();
         }
 
@@ -88,7 +88,7 @@ public class DroneControllerTest {
 
         @Before
         public void setUp() throws Exception {
-            sut = new DroneController(droneSpy, NUM_DRONE, ID, VIEW_RANGE_RADIUS, TURN_INTERVAL, LIMIT_OF_TURNING_ANGLE, selectCalleeMediator, false, 0.5, 0.5);
+            sut = new DroneController(droneSpy, NUM_DRONE, ID, VIEW_RANGE_RADIUS, TURN_INTERVAL, LIMIT_OF_TURNING_ANGLE, selectCalleeMediator, false, 0.5, 0.5, 10000);
             droneSpy.nextTurn();
         }
 
@@ -141,7 +141,7 @@ public class DroneControllerTest {
 
         @Before
         public void setUp() throws Exception {
-            sut = new DroneController(droneSpy, NUM_DRONE, ID, VIEW_RANGE_RADIUS, TURN_INTERVAL, LIMIT_OF_TURNING_ANGLE, selectCalleeMediator, false, 0.5, 0.5);
+            sut = new DroneController(droneSpy, NUM_DRONE, ID, VIEW_RANGE_RADIUS, TURN_INTERVAL, LIMIT_OF_TURNING_ANGLE, selectCalleeMediator, false, 0.5, 0.5, 10000);
             droneSpy.nextTurn();
             sut.setState(DroneState.beingCalled);
             sut.setNextSettings(0, 5);
@@ -192,7 +192,7 @@ public class DroneControllerTest {
 
         @Before
         public void setUp() throws Exception {
-            sut = new DroneController(droneSpy, NUM_DRONE, ID, VIEW_RANGE_RADIUS, TURN_INTERVAL, LIMIT_OF_TURNING_ANGLE, selectCalleeMediator, false, 0.5, SEARCH_RATIO2);
+            sut = new DroneController(droneSpy, NUM_DRONE, ID, VIEW_RANGE_RADIUS, TURN_INTERVAL, LIMIT_OF_TURNING_ANGLE, selectCalleeMediator, false, 0.5, SEARCH_RATIO2, 10000);
             while (!droneSpy.canMove()) {
                 droneSpy.nextTurn();
                 droneSpy.goToPoint(spiral2Center);

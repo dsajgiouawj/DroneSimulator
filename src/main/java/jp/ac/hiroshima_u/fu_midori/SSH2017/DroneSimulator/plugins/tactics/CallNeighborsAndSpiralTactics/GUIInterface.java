@@ -27,6 +27,7 @@ public class GUIInterface implements TacticsGUIInterface {
     private CheckBox useSpiral = new CheckBox("最初螺線探索をする");
     private FormattedTextFieldWithLabel<Double> searchRatioField = new DoubleTextFieldWithLabel("探索割合(最初の螺線)", 0.5);
     private FormattedTextFieldWithLabel<Double> searchRatio2Field = new DoubleTextFieldWithLabel("探索割合(呼び出された後の螺線)", 1);
+    private FormattedTextFieldWithLabel<Integer> timeToContinueSpiral2SinceLastFind = new IntTextFieldWithLabel("最後に被災者を発見してから螺旋探索(呼び出された後)を続ける時間[s]", 300);
 
     private VBox vBoxForFiltersManagement = new VBox();
     private FiltersManagementGUIInterface fmgi = new FiltersManagementGUIInterface();
@@ -39,6 +40,7 @@ public class GUIInterface implements TacticsGUIInterface {
                 useSpiral,
                 searchRatioField,
                 searchRatio2Field,
+                timeToContinueSpiral2SinceLastFind,
                 vBoxForFiltersManagement);
     }
 
@@ -48,7 +50,7 @@ public class GUIInterface implements TacticsGUIInterface {
         FiltersManagement fm = fmgi.getFiltersManagement(thresholdTime, drones);
 
         return new CallNeighborsAndSpiralTactics(numDrone, viewRangeRadius, turnInterval, limitOfTurningAngle,
-                useSpiral.isSelected(), searchRatioField.getValue(), searchRatio2Field.getValue(), drones, fm, certainNumberField.getValue());
+                useSpiral.isSelected(), searchRatioField.getValue(), searchRatio2Field.getValue(), drones, fm, certainNumberField.getValue(), timeToContinueSpiral2SinceLastFind.getValue());
     }
 
     @Override
