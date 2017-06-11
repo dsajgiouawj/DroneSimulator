@@ -1,16 +1,8 @@
 package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.simulator;
 
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.Drone;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.DroneImpl;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.tactics.Tactics;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.tactics.TacticsCUIInterface;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.Victim;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.VictimXComparator;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.placing.PlacingVictims;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.placing.PlacingVictimsCUIInterface;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -23,8 +15,8 @@ public class SimulatorCUIInterface {
     private int population;
     private int limitTime;
     private double viewRangeRadius;
-    private TacticsCUIInterface tacticsInterface;
-    private PlacingVictimsCUIInterface placingVictimsInterface;
+    private TacticsCUIInterface tacticsUI;
+    private PlacingVictimsCUIInterface placingVictimsUI;
     private Scanner scanner = new Scanner(System.in, "UTF-8");
 
     public void readInfo() {
@@ -51,7 +43,7 @@ public class SimulatorCUIInterface {
             throw new RuntimeException();
         }
         try {
-            tacticsInterface = (TacticsCUIInterface) tacticsInterfaceClass.newInstance();
+            tacticsUI = (TacticsCUIInterface) tacticsInterfaceClass.newInstance();
         } catch (InstantiationException e) {
             System.err.println("Tacticsクラスのインスタンスを取得できません");
             throw new RuntimeException();
@@ -59,8 +51,8 @@ public class SimulatorCUIInterface {
             System.err.println("Tacticsクラスにアクセスできません");
             throw new RuntimeException();
         }
-        System.err.println(tacticsInterface.explain());
-        tacticsInterface.readInfo();
+        System.err.println(tacticsUI.explain());
+        tacticsUI.readInfo();
     }
 
     private void readPlacingInfo() {
@@ -74,7 +66,7 @@ public class SimulatorCUIInterface {
             throw new RuntimeException();
         }
         try {
-            placingVictimsInterface = (PlacingVictimsCUIInterface) placingInterfaceClass.newInstance();
+            placingVictimsUI = (PlacingVictimsCUIInterface) placingInterfaceClass.newInstance();
         } catch (InstantiationException e) {
             System.err.println("PlacingVictimsクラスのインスタンスを取得できません");
             throw new RuntimeException();
@@ -82,21 +74,11 @@ public class SimulatorCUIInterface {
             System.err.println("PlacingVictimsクラスにアクセスできません");
             throw new RuntimeException();
         }
-        System.err.println(placingVictimsInterface.explain());
-        placingVictimsInterface.readInfo();
+        System.err.println(placingVictimsUI.explain());
+        placingVictimsUI.readInfo();
     }
 
     public Simulator getSimulator() {
-        PlacingVictims placingVictims = placingVictimsInterface.getPlacingVictims();
-        List<Victim> victims = placingVictims.placeVictims(population);
-        victims.sort(new VictimXComparator());
-        List<DroneImpl> drones = new ArrayList<>();
-        for (int i = 0; i < numDrone; i++) {
-            drones.add(new DroneImpl(viewRangeRadius, victims));
-        }
-        List<Drone> drones1 = new ArrayList<>();
-        drones1.addAll(drones);
-        Tactics tactics = tacticsInterface.getTactics(numDrone, viewRangeRadius, limitTime, drones1);
-        return new Simulator(tactics, limitTime, drones, victims);
+        return new Simulator(tacticsUI, limitTime, numDrone, viewRangeRadius, population, placingVictimsUI);
     }
 }

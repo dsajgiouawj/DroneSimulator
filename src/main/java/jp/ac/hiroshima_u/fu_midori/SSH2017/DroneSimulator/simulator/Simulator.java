@@ -3,7 +3,10 @@ package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.simulator;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.DroneGUIInterface;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.DroneImpl;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.tactics.Tactics;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.tactics.TacticsUI;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.Victim;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.VictimXComparator;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.placing.PlacingVictimsUI;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.placing.VictimGUIInterface;
 
 import java.util.ArrayList;
@@ -15,16 +18,19 @@ import java.util.List;
  * @author 遠藤拓斗 on 2017/05/12.
  */
 public class Simulator {
-    private List<DroneImpl> drones;
+    private List<DroneImpl> drones = new ArrayList<>();
     private List<Victim> victims;
     private Tactics tactics;
     private int residualTime;//残り時間
     private int limitTime;
 
-    Simulator(Tactics tactics, int limitTime, List<DroneImpl> drones, List<Victim> victims) {
-        this.drones = drones;
-        this.victims = victims;
-        this.tactics = tactics;
+    Simulator(TacticsUI tacticsUI, int limitTime, int numDrone, double viewRangeRadius, int population, PlacingVictimsUI placingVictimsUI) {
+        this.victims = placingVictimsUI.getPlacingVictims().placeVictims(population);
+        this.victims.sort(new VictimXComparator());
+        for (int i = 0; i < numDrone; i++) {
+            drones.add(new DroneImpl(viewRangeRadius, victims));
+        }
+        this.tactics = tacticsUI.getTactics(numDrone, viewRangeRadius, limitTime, new ArrayList<>(drones));
         this.residualTime = limitTime;
         this.limitTime = limitTime;
     }

@@ -2,20 +2,15 @@ package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.simulator;
 
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.VBox;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.Drone;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.DroneImpl;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.gui.controls.DoubleTextFieldWithLabel;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.gui.controls.FormattedTextFieldWithLabel;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.gui.controls.IntTextFieldWithLabel;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.importPlugin.ImportGUIPlugins;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.tactics.Tactics;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.tactics.TacticsGUIInterface;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.Victim;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.VictimXComparator;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.placing.PlacingVictims;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.tactics.TacticsUI;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.placing.PlacingVictimsGUIInterface;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.placing.PlacingVictimsUI;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -76,16 +71,9 @@ public class SimulatorGUIInterface {
         int population = populationField.getValue();
         int limitTime = limitTimeField.getValue();
         double viewRangeRadius = viewRangeRadiusField.getValue();
-        PlacingVictims placingVictims = placingVictimsPlugins.get(placingVictimsChoicer.getSelectionModel().getSelectedIndex()).getPlacingVictims();
-        List<Victim> victims = placingVictims.placeVictims(population);
-        victims.sort(new VictimXComparator());
-        List<DroneImpl> drones = new ArrayList<>();
-        for (int i = 0; i < numDrone; i++) {
-            drones.add(new DroneImpl(viewRangeRadius, victims));
-        }
-        List<Drone> drones1 = new ArrayList<>();
-        drones1.addAll(drones);
-        Tactics tactics = tacticsPlugins.get(tacticsChoicer.getSelectionModel().getSelectedIndex()).getTactics(numDrone, viewRangeRadius, limitTime, drones1);
-        return new Simulator(tactics, limitTime, drones, victims);
+        PlacingVictimsUI placingVictimsUI = placingVictimsPlugins.get(placingVictimsChoicer.getSelectionModel().getSelectedIndex());
+        TacticsUI tacticsUI = tacticsPlugins.get(tacticsChoicer.getSelectionModel().getSelectedIndex());
+        //getTactics(numDrone, viewRangeRadius, limitTime, drones1);
+        return new Simulator(tacticsUI, limitTime, numDrone, viewRangeRadius, population, placingVictimsUI);
     }
 }

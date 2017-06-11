@@ -2,9 +2,11 @@ package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.simulator;
 
 import javafx.geometry.Point2D;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.DroneGUIInterface;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.DroneImpl;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.tactics.Tactics;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.tactics.TacticsUI;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.Victim;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.placing.PlacingVictims;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.placing.PlacingVictimsUI;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.placing.VictimGUIInterface;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,6 +25,9 @@ import static org.mockito.Mockito.*;
 public class SimulatorTest {
     private Simulator sut;
     private Tactics tactics = mock(Tactics.class);
+    private TacticsUI tacticsUI = mock(TacticsUI.class);
+    private PlacingVictims placingVictims = mock(PlacingVictims.class);
+    private PlacingVictimsUI placingVictimsUI = mock(PlacingVictimsUI.class);
     private final int NUM_DRONE = 5;
     private final int POPULATION = 20;
     private final int LIMIT_TIME = 100;
@@ -30,15 +35,14 @@ public class SimulatorTest {
 
     @Before
     public void setUp() throws Exception {
+        when(tacticsUI.getTactics(anyInt(), anyDouble(), anyInt(), any())).thenReturn(tactics);
+        when(placingVictimsUI.getPlacingVictims()).thenReturn(placingVictims);
         List<Victim> victims = new ArrayList<>();
         for (int i = 0; i < POPULATION; i++) {
-            victims.add(new Victim(new Point2D(0, 0)));
+            victims.add(new Victim(new Point2D(i, i)));
         }
-        List<DroneImpl> drones = new ArrayList<>();
-        for (int i = 0; i < NUM_DRONE; i++) {
-            drones.add(new DroneImpl(VIEW_RANGE_RADIUS, victims));
-        }
-        sut = new Simulator(tactics, LIMIT_TIME, drones, victims);
+        when(placingVictims.placeVictims(POPULATION)).thenReturn(victims);
+        sut = new Simulator(tacticsUI, LIMIT_TIME, NUM_DRONE, VIEW_RANGE_RADIUS, POPULATION, placingVictimsUI);
     }
 
     @Test
