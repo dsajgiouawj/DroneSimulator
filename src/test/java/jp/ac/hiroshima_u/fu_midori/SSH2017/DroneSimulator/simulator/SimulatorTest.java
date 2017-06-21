@@ -4,10 +4,10 @@ import javafx.geometry.Point2D;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.DroneGUIInterface;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.tactics.Tactics;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.tactics.TacticsUI;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.Victim;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.Victims;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.ViewableVictim;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.placing.PlacingVictims;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.placing.PlacingVictimsUI;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.placing.VictimGUIInterface;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,10 +37,11 @@ public class SimulatorTest {
     public void setUp() throws Exception {
         when(tacticsUI.getTactics(anyInt(), anyDouble(), anyInt(), any())).thenReturn(tactics);
         when(placingVictimsUI.getPlacingVictims()).thenReturn(placingVictims);
-        List<Victim> victims = new ArrayList<>();
+        List<Point2D> points = new ArrayList<>();
         for (int i = 0; i < POPULATION; i++) {
-            victims.add(new Victim(new Point2D(i, i)));
+            points.add(new Point2D(i, i));
         }
+        Victims victims = new Victims(points);
         when(placingVictims.placeVictims(POPULATION)).thenReturn(victims);
         sut = new Simulator(tacticsUI, LIMIT_TIME, NUM_DRONE, VIEW_RANGE_RADIUS, POPULATION, placingVictimsUI);
     }
@@ -80,7 +81,7 @@ public class SimulatorTest {
 
     @Test
     public void getVictimsで被災者を取得できる() throws Exception {
-        List<VictimGUIInterface> victims = sut.getVictimsGUI();
+        List<ViewableVictim> victims = sut.getVictimsGUI();
         assertThat(victims.size(), is(POPULATION));
     }
 

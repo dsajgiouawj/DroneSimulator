@@ -1,10 +1,9 @@
 package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.placingVictims.circle;
 
 import javafx.geometry.Point2D;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.Victim;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.Victims;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.ViewableVictim;
 import org.junit.Test;
-
-import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
@@ -22,9 +21,9 @@ public class PlacingCircleTest {
         double radius = 50;
         PlacingCircle sut = new PlacingCircle(center, radius);
         int population = 1000;
-        List<Victim> victims = sut.placeVictims(population);
-        assertThat(victims.size(), is(population));
-        for (Victim victim : victims) {
+        Victims victims = sut.placeVictims(population);
+        assertThat(victims.population(), is(population));
+        for (ViewableVictim victim : victims.getViewableVictims()) {
             double distance = center.distance(victim.getPoint());
             assertThat(distance, is(lessThanOrEqualTo(radius)));
         }

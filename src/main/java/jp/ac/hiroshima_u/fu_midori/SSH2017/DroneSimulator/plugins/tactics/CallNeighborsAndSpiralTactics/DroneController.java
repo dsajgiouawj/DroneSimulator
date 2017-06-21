@@ -54,8 +54,8 @@ public class DroneController {
             goTarget();
         } else if (state == spiral) {
             spiralTacticsDrone.executeTurn();
-            if (drone.getNumOfFoundVictimsWhileLastMovement() > 0)
-                selectCalleeMediator.inform(id, drone.getNumOfFoundVictimsWhileLastMovement());
+            if (drone.getNumOfFoundVictimsWhileThisTurn() > 0)
+                selectCalleeMediator.inform(id, drone.getNumOfFoundVictimsWhileThisTurn());
         } else if (state == spiral2) {
             spiral2();
         } else {
@@ -91,7 +91,7 @@ public class DroneController {
 
     private void spiral2() {
         spiralTacticsDrone.executeTurn();
-        if (drone.getNumOfFoundVictimsWhileLastMovement() == 0) {
+        if (drone.getNumOfFoundVictimsWhileThisTurn() == 0) {
             spiral2elapsedTimeSinceLastFind++;
         } else {
             spiral2elapsedTimeSinceLastFind = 0;

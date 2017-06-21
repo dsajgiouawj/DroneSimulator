@@ -1,8 +1,6 @@
 package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.placing;
 
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.Victim;
-
-import java.util.List;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.Victims;
 
 /**
  * 被災者を配置するインタフェースです。
@@ -14,5 +12,5 @@ public interface PlacingVictims {
      * @param population 人口
      * @return 被災者のリスト(サイズはpopulation)
      */
-    List<Victim> placeVictims(int population);
+    Victims placeVictims(int population);
 }

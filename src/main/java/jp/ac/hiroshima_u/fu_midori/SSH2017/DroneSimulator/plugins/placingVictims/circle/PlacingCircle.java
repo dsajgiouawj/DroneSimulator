@@ -1,7 +1,7 @@
 package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.placingVictims.circle;
 
 import javafx.geometry.Point2D;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.Victim;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.Victims;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.placing.PlacingVictims;
 
 import java.util.ArrayList;
@@ -22,12 +22,12 @@ public class PlacingCircle implements PlacingVictims {
     }
 
     @Override
-    public List<Victim> placeVictims(int population) {
-        List<Victim> res = new ArrayList<>();
+    public Victims placeVictims(int population) {
+        List<Point2D> points = new ArrayList<>();
         for (int i = 0; i < population; ++i) {
-            res.add(new Victim(generatePoint()));
+            points.add(generatePoint());
         }
-        return res;
+        return new Victims(points);
     }
 
     private Point2D generatePoint() {

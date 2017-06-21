@@ -15,7 +15,7 @@ import javafx.util.Duration;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.DroneGUIInterface;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.simulator.Simulator;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.simulator.SimulatorGUIInterface;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.placing.VictimGUIInterface;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.ViewableVictim;
 
 import java.net.URL;
 import java.util.List;
@@ -74,7 +74,7 @@ public class Controller implements Initializable {
     }
 
     private List<DroneGUIInterface> drones;
-    private List<VictimGUIInterface> victims;
+    private List<ViewableVictim> victims;
     private static final double radiusOfVictim = 2;//被災者を表示するときの半径
     private static final Color colorOfVictim = Color.BLUE;//被災者を表示するときの色
 
@@ -90,7 +90,7 @@ public class Controller implements Initializable {
         clearCanvas();
         simulator.nextTurn();
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        for (VictimGUIInterface v : victims) {
+        for (ViewableVictim v : victims) {
             if (v.isFound()) continue;
             double x = (v.getX() - radiusOfVictim) * zoom + canvas.getWidth() / 2;
             double y = (v.getY() - radiusOfVictim) * zoom + canvas.getHeight() / 2;

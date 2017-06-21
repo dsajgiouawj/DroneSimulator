@@ -1,7 +1,7 @@
 package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.placingVictims.circles;
 
 import javafx.geometry.Point2D;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.Victim;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.Victims;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.placing.PlacingVictims;
 
 import java.util.ArrayList;
@@ -36,16 +36,16 @@ public class PlacingCircles implements PlacingVictims {
     }
 
     @Override
-    public List<Victim> placeVictims(int population) {
-        List<Victim> res = new ArrayList<>();
+    public Victims placeVictims(int population) {
+        List<Point2D> points = new ArrayList<>();
         int residualPopulation = population;
         int residualCircles = numOfCircles;
         for (int i = 0; i < numOfCircles; i++) {
-            res.addAll(generateCircleInRange(residualPopulation / residualCircles));
+            points.addAll(generateCircleInRange(residualPopulation / residualCircles));
             residualPopulation -= residualPopulation / residualCircles;
             residualCircles--;
         }
-        return res;
+        return new Victims(points);
     }
 
     private Point2D generatePointInCircle(Point2D center, double radius) {
@@ -55,19 +55,19 @@ public class PlacingCircles implements PlacingVictims {
         else return generatePointInCircle(center, radius);
     }
 
-    private List<Victim> generateCircleInRange(int numOfVictims) {
-        List<Victim> res = new ArrayList<>();
+    private List<Point2D> generateCircleInRange(int numOfVictims) {
+        List<Point2D> points = new ArrayList<>();
         double x = Math.random() * radiusOfCenterRange * 2 - radiusOfCenterRange;
         double y = Math.random() * radiusOfCenterRange * 2 - radiusOfCenterRange;
         if (x * x + y * y <= radiusOfCenterRange * radiusOfCenterRange) {
             x += centerOfRange.getX();
             y += centerOfRange.getY();
             for (int i = 0; i < numOfVictims; i++) {
-                res.add(new Victim(generatePointInCircle(new Point2D(x, y), radiusOfCircles)));
+                points.add(generatePointInCircle(new Point2D(x, y), radiusOfCircles));
             }
         } else {
             return generateCircleInRange(numOfVictims);
         }
-        return res;
+        return points;
     }
 }

@@ -1,7 +1,6 @@
 package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim;
 
 import javafx.geometry.Point2D;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.placing.VictimGUIInterface;
 
 
 /**
@@ -9,14 +8,14 @@ import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.placing.VictimG
  *
  * @author 遠藤拓斗 on 2017/05/11.
  */
-public class Victim implements VictimGUIInterface {
+class Victim implements ViewableVictim {
     private Point2D point;
     /**
      * 既に発見されているか
      */
     private boolean found = false;
 
-    public Victim(Point2D point) {
+    Victim(Point2D point) {
         this.point = point;
     }
 
@@ -27,7 +26,7 @@ public class Victim implements VictimGUIInterface {
     /**
      * 被災者を発見したことにする。
      */
-    public void setFound() {
+    void setFound() {
         found = true;
     }
 

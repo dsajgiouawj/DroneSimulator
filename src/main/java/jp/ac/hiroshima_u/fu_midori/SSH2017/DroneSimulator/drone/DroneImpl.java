@@ -2,9 +2,7 @@ package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone;
 
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.Victim;
-
-import java.util.List;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.Victims;
 
 /**
  * ドローンの実装です。
@@ -17,12 +15,14 @@ public class DroneImpl implements Drone, DroneGUIInterface {
     private double theta = 0;//向いている方向[rad]
     private Point2D point = new Point2D(0, 0);//現在位置
     private Point2D point0;//前回位置
-    private Camera camera;
+    private Victims victims;
     private double viewRangeRadius;
+    private int numOfFoundVictimsWhileLastMovement = 0;
+    private int numOfFoundVictimsWhileThisTurn = 0;
 
-    public DroneImpl(double viewRangeRadius, List<Victim> victims) {
+    public DroneImpl(double viewRangeRadius, Victims victims) {
         this.viewRangeRadius = viewRangeRadius;
-        this.camera = new Camera(viewRangeRadius, victims);
+        this.victims = victims;
     }
 
     public void goStraight() {
@@ -88,7 +88,11 @@ public class DroneImpl implements Drone, DroneGUIInterface {
     }
 
     public int getNumOfFoundVictimsWhileLastMovement() {
-        return camera.getNumOfFoundVictimsWhileLastMovement();
+        return numOfFoundVictimsWhileLastMovement;
+    }
+
+    public int getNumOfFoundVictimsWhileThisTurn() {
+        return numOfFoundVictimsWhileThisTurn;
     }
 
     private Color color = Color.WHITE;
@@ -106,7 +110,9 @@ public class DroneImpl implements Drone, DroneGUIInterface {
     }
 
     private void findPeople() {
-        camera.findPeople(point0, point);
+        numOfFoundVictimsWhileLastMovement = 0;
+        numOfFoundVictimsWhileLastMovement = victims.findPeople(point0, point, viewRangeRadius);
+        numOfFoundVictimsWhileThisTurn += numOfFoundVictimsWhileLastMovement;
     }
 
     public void nextTurn() {

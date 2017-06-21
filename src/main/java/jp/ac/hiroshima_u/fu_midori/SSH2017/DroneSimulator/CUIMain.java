@@ -20,7 +20,7 @@ public class CUIMain {
         for (int i = 0; i < times; i++) {
             Simulator simulator = simulatorCUIInterface.getSimulator();
             simulator.runThrough();
-            int numOfFoundVictims = (int) simulator.getVictims().stream().filter(v -> v.isFound()).count();
+            int numOfFoundVictims = simulator.getVictims().foundPopulation();
             if (i != 0) System.out.print(",");
             System.out.print(numOfFoundVictims);
         }

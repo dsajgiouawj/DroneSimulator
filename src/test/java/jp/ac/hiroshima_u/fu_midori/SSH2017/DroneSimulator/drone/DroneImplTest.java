@@ -2,7 +2,7 @@ package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone;
 
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.Victim;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.Victims;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,7 +22,7 @@ import static org.junit.Assert.assertThat;
 public class DroneImplTest {
     private DroneImpl sut;
     private final double VIEW_RANGE_RADIUS = 30;
-    private List<Victim> victims = new ArrayList<>();
+    private Victims victims = new Victims(new ArrayList<>());
 
     @Before
     public void setUp() {
@@ -250,14 +250,38 @@ public class DroneImplTest {
 
     @Test
     public void getNumOfFoundVictimsWhileLastFoundで前回発見した被災者数を取得できる() throws Exception {
-        victims.add(new Victim(new Point2D(3, 0)));
-        victims.add(new Victim(new Point2D(5, 2)));
-        victims.add(new Victim(new Point2D(100, 10)));
+        //victimsとsutは独自に定義
+        List<Point2D> points = new ArrayList<>();
+        points.add(new Point2D(3, 0));
+        points.add(new Point2D(5, 2));
+        points.add(new Point2D(100, 10));
+        Victims victims = new Victims(points);
+        DroneImpl sut = new DroneImpl(VIEW_RANGE_RADIUS, victims);
+        sut.nextTurn();
         sut.goStraight(10);
         int actual = sut.getNumOfFoundVictimsWhileLastMovement();
         assertThat(actual, is(2));
         sut.goStraight(5);
         actual = sut.getNumOfFoundVictimsWhileLastMovement();
         assertThat(actual, is(0));
+    }
+
+    @Test
+    public void getNumOfFoundVictimsWhileThisTurnでこのターンで発見した被災者数を取得できる() throws Exception {
+        //victimsとsutは独自に定義
+        List<Point2D> points = new ArrayList<>();
+        points.add(new Point2D(3, 0));
+        points.add(new Point2D(5, 2));
+        points.add(new Point2D(45, 0));
+        points.add(new Point2D(100, 10));
+        Victims victims = new Victims(points);
+        DroneImpl sut = new DroneImpl(VIEW_RANGE_RADIUS, victims);
+        sut.nextTurn();
+        sut.goStraight(10);
+        assertThat(sut.getNumOfFoundVictimsWhileLastMovement(), is(2));
+        assertThat(sut.getNumOfFoundVictimsWhileThisTurn(), is(2));
+        sut.goStraight(5);
+        assertThat(sut.getNumOfFoundVictimsWhileLastMovement(), is(1));
+        assertThat(sut.getNumOfFoundVictimsWhileThisTurn(), is(3));
     }
 }

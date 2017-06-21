@@ -104,9 +104,18 @@ public interface Drone {
     /**
      * 前回の動作で発見した被災者の数を返します。
      * 直前のgo*メソッドの呼び出しで発見した被災者の数です
+     *
      * @return 被災者の数
      */
     int getNumOfFoundVictimsWhileLastMovement();
+
+    /**
+     * このターンで発見した被災者の数を返します。
+     *
+     * @return 被災者の数
+     */
+    int getNumOfFoundVictimsWhileThisTurn();
+
 
     /**
      * GUI時に表示する色を設定します。

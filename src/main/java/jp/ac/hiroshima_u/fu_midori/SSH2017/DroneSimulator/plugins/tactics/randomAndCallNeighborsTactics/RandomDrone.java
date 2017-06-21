@@ -45,15 +45,15 @@ public class RandomDrone {
             goTarget();
         } else if (state == spiral) {
             spiralTacticsDrone.executeTurn();
-            if (drone.getNumOfFoundVictimsWhileLastMovement() > 0)
-                selectCalleeMediator.inform(id, drone.getNumOfFoundVictimsWhileLastMovement());
+            if (drone.getNumOfFoundVictimsWhileThisTurn() > 0)
+                selectCalleeMediator.inform(id, drone.getNumOfFoundVictimsWhileThisTurn());
         } else {
             throw new RuntimeException("未実装");
         }
         time++;
     }
 
-    protected void randomWalk() {
+    private void randomWalk() {
         if (time % turnInterval == 0) {
             double deltaTheta = Math.random() * limitOfTurningAngle * 2 - limitOfTurningAngle;//[-limit,limit)
             drone.turnClockWise(deltaTheta);
@@ -64,7 +64,7 @@ public class RandomDrone {
         }
     }
 
-    protected void goTarget() {
+    private void goTarget() {
         drone.goToPoint(target);
         if (drone.getNumOfFoundVictimsWhileLastMovement() > 0) {
             selectCalleeMediator.inform(id, drone.getNumOfFoundVictimsWhileLastMovement());

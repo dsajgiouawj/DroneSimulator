@@ -3,6 +3,7 @@ package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.spira
 import javafx.geometry.Point2D;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.Drone;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.DroneImpl;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.Victims;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,7 +27,7 @@ public class SpiralTacticsTest {
     @Before
     public void setUp() throws Exception {
         for (int i = 0; i < NUM_DRONE; i++) {
-            DroneImpl drone = new DroneImpl(10, new ArrayList<>());
+            DroneImpl drone = new DroneImpl(10, new Victims(new ArrayList<>()));
             drone.nextTurn();
             drones.add(drone);
         }

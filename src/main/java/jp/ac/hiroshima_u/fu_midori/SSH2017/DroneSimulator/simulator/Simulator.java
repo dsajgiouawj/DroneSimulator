@@ -4,10 +4,9 @@ import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.DroneGUIInterfac
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.DroneImpl;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.tactics.Tactics;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.tactics.TacticsUI;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.Victim;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.VictimXComparator;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.Victims;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.ViewableVictim;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.placing.PlacingVictimsUI;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.placing.VictimGUIInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,14 +18,13 @@ import java.util.List;
  */
 public class Simulator {
     private List<DroneImpl> drones = new ArrayList<>();
-    private List<Victim> victims;
+    private Victims victims;
     private Tactics tactics;
     private int residualTime;//残り時間
     private int limitTime;
 
     Simulator(TacticsUI tacticsUI, int limitTime, int numDrone, double viewRangeRadius, int population, PlacingVictimsUI placingVictimsUI) {
         this.victims = placingVictimsUI.getPlacingVictims().placeVictims(population);
-        this.victims.sort(new VictimXComparator());
         for (int i = 0; i < numDrone; i++) {
             drones.add(new DroneImpl(viewRangeRadius, victims));
         }
@@ -73,10 +71,8 @@ public class Simulator {
      *
      * @return 被災者
      */
-    public List<VictimGUIInterface> getVictimsGUI() {
-        List<VictimGUIInterface> res = new ArrayList<>();
-        res.addAll(victims);
-        return res;
+    public List<ViewableVictim> getVictimsGUI() {
+        return victims.getViewableVictims();
     }
 
     /**
@@ -93,7 +89,7 @@ public class Simulator {
      *
      * @return 被災者
      */
-    public List<Victim> getVictims() {
+    public Victims getVictims() {
         return victims;
     }
 

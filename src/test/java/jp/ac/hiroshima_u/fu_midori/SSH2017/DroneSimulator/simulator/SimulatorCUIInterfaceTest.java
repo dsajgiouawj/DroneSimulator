@@ -45,7 +45,7 @@ public class SimulatorCUIInterfaceTest {
         Simulator simulator = sut.getSimulator();
 
         assertThat(simulator.getDrones().size(), is(numDrone));
-        assertThat(simulator.getVictims().size(), is(population));
+        assertThat(simulator.getVictims().population(), is(population));
         assertThat(simulator.getLimitTime(), is(limitTime));
         assertThat(simulator.getDrones().get(0).getViewRangeRadius(), is(viewRangeRadius));
     }

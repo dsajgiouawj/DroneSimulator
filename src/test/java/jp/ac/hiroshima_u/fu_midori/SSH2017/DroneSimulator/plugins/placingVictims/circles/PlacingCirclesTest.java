@@ -1,11 +1,10 @@
 package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.placingVictims.circles;
 
 import javafx.geometry.Point2D;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.Victim;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.Victims;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.ViewableVictim;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
@@ -31,26 +30,26 @@ public class PlacingCirclesTest {
 
     @Test
     public void 生成する人数が正しい() throws Exception {
-        List<Victim> actual = sut.placeVictims(2017);
-        assertThat(actual.size(), is(2017));
-        for (Victim victim : actual) {
+        Victims actual = sut.placeVictims(2017);
+        assertThat(actual.population(), is(2017));
+        for (ViewableVictim victim : actual.getViewableVictims()) {
             assertThat(victim.getPoint().distance(centerOfRange), is(lessThanOrEqualTo(radiusOfRange)));
         }
     }
 
     @Test
     public void 生成する人数がnumOfCirclesより小さい時正しい() throws Exception {
-        List<Victim> actual = sut.placeVictims(numOfCircles / 2);
-        assertThat(actual.size(), is(numOfCircles / 2));
-        for (Victim victim : actual) {
+        Victims actual = sut.placeVictims(numOfCircles / 2);
+        assertThat(actual.population(), is(numOfCircles / 2));
+        for (ViewableVictim victim : actual.getViewableVictims()) {
             assertThat(victim.getPoint().distance(centerOfRange), is(lessThanOrEqualTo(radiusOfRange)));
         }
     }
 
     @Test
     public void 生成する人数がゼロ人の時正しい() throws Exception {
-        List<Victim> actual = sut.placeVictims(0);
-        assertThat(actual.size(), is(0));
+        Victims actual = sut.placeVictims(0);
+        assertThat(actual.population(), is(0));
     }
 
     @Test(expected = IllegalArgumentException.class)

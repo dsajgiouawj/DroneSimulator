@@ -5,6 +5,7 @@ import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.DroneImpl;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.calling.CallingACertainNumberOfDrones;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.calling.SelectCalleeMediator;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.spiralTactics.SpiralTacticsDrone;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.Victims;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
@@ -32,7 +33,7 @@ public class RandomDroneTest {
     public static class 最初に螺旋探索を行う場合 {
         private RandomDrone sut;
         private final double SEARCH_RATIO = 0.5;
-        private DroneImpl drone = new DroneImpl(VIEW_RANGE_RADIUS, new ArrayList<>());
+        private DroneImpl drone = new DroneImpl(VIEW_RANGE_RADIUS, new Victims(new ArrayList<>()));
         private DroneImpl droneSpy = spy(drone);
         private SelectCalleeMediator selectCalleeMediator = mock(CallingACertainNumberOfDrones.class);
 
@@ -52,7 +53,7 @@ public class RandomDroneTest {
         public void executeTurnを実行すると螺旋探索() throws Exception {
             sut.executeTurn();
             Point2D actual = sut.getPoint();
-            DroneImpl droneForSpiral = new DroneImpl(VIEW_RANGE_RADIUS, new ArrayList<>());
+            DroneImpl droneForSpiral = new DroneImpl(VIEW_RANGE_RADIUS, new Victims(new ArrayList<>()));
             SpiralTacticsDrone spiralTacticsDrone = new SpiralTacticsDrone(droneForSpiral, NUM_DRONE, ID, VIEW_RANGE_RADIUS, SEARCH_RATIO);
             droneForSpiral.nextTurn();
             spiralTacticsDrone.executeTurn();
@@ -73,7 +74,7 @@ public class RandomDroneTest {
 
         @Test
         public void 被災者を見つけるとcallerに知らせるが状態は変化しない() throws Exception {
-            when(droneSpy.getNumOfFoundVictimsWhileLastMovement()).thenReturn(1);
+            when(droneSpy.getNumOfFoundVictimsWhileThisTurn()).thenReturn(1);
             sut.executeTurn();
             verify(selectCalleeMediator).inform(ID, 1);
             assertThat(sut.getState(), is(DroneState.spiral));
@@ -82,7 +83,7 @@ public class RandomDroneTest {
 
     public static class 最初に螺旋探索を行わない場合 {
         private RandomDrone sut;
-        private DroneImpl drone = new DroneImpl(VIEW_RANGE_RADIUS, new ArrayList<>());
+        private DroneImpl drone = new DroneImpl(VIEW_RANGE_RADIUS, new Victims(new ArrayList<>()));
         private DroneImpl droneSpy = spy(drone);
         private SelectCalleeMediator selectCalleeMediator = mock(CallingACertainNumberOfDrones.class);
 
@@ -135,7 +136,7 @@ public class RandomDroneTest {
 
     public static class 他のドローンに向かっている場合 {
         private RandomDrone sut;
-        private DroneImpl drone = new DroneImpl(VIEW_RANGE_RADIUS, new ArrayList<>());
+        private DroneImpl drone = new DroneImpl(VIEW_RANGE_RADIUS, new Victims(new ArrayList<>()));
         private DroneImpl droneSpy = spy(drone);
         private SelectCalleeMediator selectCalleeMediator = mock(CallingACertainNumberOfDrones.class);
 
