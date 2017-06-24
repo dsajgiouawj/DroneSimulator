@@ -27,13 +27,14 @@ public class GUIInterface implements TacticsGUIInterface {
     private CheckBox useSpiral = new CheckBox("最初螺線探索をする");
     private FormattedTextFieldWithLabel<Double> searchRatioField = new DoubleTextFieldWithLabel("探索割合(最初の螺線)", 0.5);
     private FormattedTextFieldWithLabel<Double> searchRatio2Field = new DoubleTextFieldWithLabel("探索割合(呼び出された後の螺線)", 1);
-    private FormattedTextFieldWithLabel<Integer> timeToContinueSpiral2SinceLastFind = new IntTextFieldWithLabel("最後に被災者を発見してから螺旋探索(呼び出された後)を続ける時間[s]", 300);
+    private FormattedTextFieldWithLabel<Integer> timeToContinueSpiral2SinceLastFind = new IntTextFieldWithLabel("最後に被災者を発見してから\n螺旋探索(呼び出された後)を続ける時間[s]", 300);
 
     private VBox vBoxForFiltersManagement = new VBox();
     private FiltersManagementGUIInterface fmgi = new FiltersManagementGUIInterface();
 
     @Override
     public void makeGUI(VBox vBox) {
+        vBoxForFiltersManagement.getChildren().clear();
         fmgi.makeGUI(vBoxForFiltersManagement);
         vBox.getChildren().addAll(certainNumberField,
                 thresholdTimeField,

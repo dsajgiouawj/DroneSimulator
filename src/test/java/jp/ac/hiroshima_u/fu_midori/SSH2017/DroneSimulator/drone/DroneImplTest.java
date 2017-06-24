@@ -283,5 +283,8 @@ public class DroneImplTest {
         sut.goStraight(5);
         assertThat(sut.getNumOfFoundVictimsWhileLastMovement(), is(1));
         assertThat(sut.getNumOfFoundVictimsWhileThisTurn(), is(3));
+        sut.nextTurn();
+        assertThat(sut.getNumOfFoundVictimsWhileThisTurn(), is(0));
+        assertThat(sut.getNumOfFoundVictimsWhileLastMovement(), is(1));
     }
 }

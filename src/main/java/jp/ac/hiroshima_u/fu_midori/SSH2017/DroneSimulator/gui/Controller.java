@@ -49,6 +49,8 @@ public class Controller implements Initializable {
     private VBox vBoxForPlacingVictims;
     @FXML
     private Label label_time;
+    @FXML
+    private Label label_rescuee;
 
     private Simulator simulator;
 
@@ -108,6 +110,7 @@ public class Controller implements Initializable {
         int minute = time % 3600 / 60;
         int second = time % 60;
         label_time.setText(String.format("%d:%02d:%02d", hour, minute, second));
+        label_rescuee.setText(String.format("%d/%d", simulator.getVictims().foundPopulation(), simulator.getVictims().population()));
     }
 
     private void clearCanvas() {

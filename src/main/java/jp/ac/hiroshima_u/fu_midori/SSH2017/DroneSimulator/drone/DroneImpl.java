@@ -101,6 +101,11 @@ public class DroneImpl implements Drone, DroneGUIInterface {
         this.color = color;
     }
 
+    @Override
+    public double speed() {
+        return SPEED;
+    }
+
     public Color getColor() {
         return this.color;
     }
@@ -117,6 +122,7 @@ public class DroneImpl implements Drone, DroneGUIInterface {
 
     public void nextTurn() {
         residualDistance = SPEED;
+        numOfFoundVictimsWhileThisTurn = 0;
     }
 
     @Override

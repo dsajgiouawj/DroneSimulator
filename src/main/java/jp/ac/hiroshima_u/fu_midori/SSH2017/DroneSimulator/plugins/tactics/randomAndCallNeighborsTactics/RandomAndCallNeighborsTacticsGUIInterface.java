@@ -33,6 +33,7 @@ public class RandomAndCallNeighborsTacticsGUIInterface implements TacticsGUIInte
 
     @Override
     public void makeGUI(VBox vBox) {
+        vBoxForFiltersManagement.getChildren().clear();
         fmgi.makeGUI(vBoxForFiltersManagement);
         vBox.getChildren().addAll(certainNumberField,
                 thresholdTimeField,

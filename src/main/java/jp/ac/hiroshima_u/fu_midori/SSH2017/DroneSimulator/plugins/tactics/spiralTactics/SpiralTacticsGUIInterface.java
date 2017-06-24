@@ -16,8 +16,8 @@ import java.util.List;
  * @author 遠藤拓斗 on 2017/05/15.
  */
 public class SpiralTacticsGUIInterface implements TacticsGUIInterface {
-    private static FormattedTextFieldWithLabel<Double> searchRatioField = new DoubleTextFieldWithLabel("探索割合", 1);
-    private static Label warningLabel = new Label("探索割合の値は0より大きく1以下である必要があります\n不正な値を入力した場合は1とみなされます");
+    private FormattedTextFieldWithLabel<Double> searchRatioField = new DoubleTextFieldWithLabel("探索割合", 1);
+    private Label warningLabel = new Label("探索割合の値は0より大きく1以下である必要があります\n不正な値を入力した場合は1とみなされます");
 
     @Override
     public void makeGUI(VBox vBox) {

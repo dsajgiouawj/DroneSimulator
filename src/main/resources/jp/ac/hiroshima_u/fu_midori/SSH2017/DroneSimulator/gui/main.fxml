@@ -21,11 +21,11 @@
                 <VBox fx:id="inputInformationPane" prefHeight="200.0" prefWidth="100.0" spacing="10.0"
                       HBox.hgrow="ALWAYS">
                     <children>
-                        <VBox fx:id="vBoxForMain" prefHeight="200.0" prefWidth="100.0" spacing="10.0"
+                        <VBox fx:id="vBoxForMain" prefHeight="0.0" prefWidth="0.0" spacing="0.0"
                               VBox.vgrow="ALWAYS"/>
-                        <VBox fx:id="vBoxForPlacingVictims" prefHeight="200.0" prefWidth="100.0" spacing="10.0"
+                        <VBox fx:id="vBoxForPlacingVictims" prefHeight="0.0" prefWidth="0.0" spacing="0.0"
                               VBox.vgrow="ALWAYS"/>
-                        <VBox fx:id="vBoxForTactics" prefHeight="200.0" prefWidth="100.0" spacing="10.0"
+                        <VBox fx:id="vBoxForTactics" prefHeight="0.0" prefWidth="0.0" spacing="0.0"
                               VBox.vgrow="ALWAYS"/>
                         <Button fx:id="btn_start" mnemonicParsing="false" onAction="#onClick" prefHeight="46.0"
                                 prefWidth="78.0" text="Start"/>

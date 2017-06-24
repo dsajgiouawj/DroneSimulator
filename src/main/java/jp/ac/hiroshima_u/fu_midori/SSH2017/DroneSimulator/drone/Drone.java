@@ -123,4 +123,11 @@ public interface Drone {
      * @param color 色
      */
     void setColor(Color color);
+
+    /**
+     * ドローンの速度を返します
+     *
+     * @return 速度[m/s]
+     */
+    double speed();
 }

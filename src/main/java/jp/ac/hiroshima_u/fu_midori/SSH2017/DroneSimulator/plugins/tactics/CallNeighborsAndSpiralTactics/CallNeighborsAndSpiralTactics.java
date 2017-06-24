@@ -38,7 +38,8 @@ public class CallNeighborsAndSpiralTactics implements Tactics {
         this.timeToContinueSpiral2SinceLastFind = timeToContinueSpiral2SinceLastFind;
         setDrones(drones);
         filtersManagement.addFilter(new FilterSpiral2OrBeingCalledDrone(this.drones));
-        filtersManagement.addFilter(new CallIfNotNearFromThePastCallingPoints(drones, 500));
+        filtersManagement.addFilter(new CallIfNotNearFromThePastCallingPoints(drones,
+                Math.sqrt(viewRangeRadius * 2 * drones.get(0).speed() * timeToContinueSpiral2SinceLastFind * certainNumber / Math.PI)));
     }
 
     private void setDrones(List<Drone> drones) {
