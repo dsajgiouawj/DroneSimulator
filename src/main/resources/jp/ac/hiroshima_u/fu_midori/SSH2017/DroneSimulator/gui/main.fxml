@@ -23,7 +23,7 @@
                     <children>
                         <VBox fx:id="vBoxForMain" prefHeight="0.0" prefWidth="0.0" spacing="0.0"
                               VBox.vgrow="ALWAYS"/>
-                        <VBox fx:id="vBoxForPlacingVictims" prefHeight="0.0" prefWidth="0.0" spacing="0.0"
+                        <VBox fx:id="vBoxForVictimsPlacer" prefHeight="0.0" prefWidth="0.0" spacing="0.0"
                               VBox.vgrow="ALWAYS"/>
                         <VBox fx:id="vBoxForTactics" prefHeight="0.0" prefWidth="0.0" spacing="0.0"
                               VBox.vgrow="ALWAYS"/>

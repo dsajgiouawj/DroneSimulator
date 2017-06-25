@@ -12,9 +12,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.DroneGUIInterface;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.VieableDrone;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.simulator.Simulator;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.simulator.SimulatorGUIInterface;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.simulator.SimulatorViewerFrontend;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.ViewableVictim;
 
 import java.net.URL;
@@ -31,7 +31,7 @@ public class Controller implements Initializable {
     public Canvas canvas;
     public VBox inputInformationPane;
     public VBox vBoxForMain;
-    public VBox vBoxForPlacingVictims;
+    public VBox vBoxForVictimsPlacer;
     public VBox vBoxForTactics;
     public Button btn_start;
     public Label label_rescuee;
@@ -46,7 +46,7 @@ public class Controller implements Initializable {
     @FXML
     private VBox vBoxForTactics;
     @FXML
-    private VBox vBoxForPlacingVictims;
+    private VBox vBoxForVictimsPlacer;
     @FXML
     private Label label_time;
     @FXML
@@ -63,7 +63,7 @@ public class Controller implements Initializable {
      * @param resources resources
      */
     public void initialize(URL location, ResourceBundle resources) {
-        SimulatorGUIInterface.makeGUI(vBoxForMain, vBoxForTactics, vBoxForPlacingVictims);
+        SimulatorViewerFrontend.makeGUI(vBoxForMain, vBoxForTactics, vBoxForVictimsPlacer);
         initCanvas();
     }
 
@@ -75,15 +75,15 @@ public class Controller implements Initializable {
         timeline.play();
     }
 
-    private List<DroneGUIInterface> drones;
+    private List<VieableDrone> drones;
     private List<ViewableVictim> victims;
     private static final double radiusOfVictim = 2;//被災者を表示するときの半径
     private static final Color colorOfVictim = Color.BLUE;//被災者を表示するときの色
 
     public void onClick(ActionEvent actionEvent) {
-        simulator = SimulatorGUIInterface.getSimulator();
-        drones = simulator.getDronesGUI();
-        victims = simulator.getVictimsGUI();
+        simulator = SimulatorViewerFrontend.getSimulator();
+        drones = simulator.getVieableDrones();
+        victims = simulator.getVieableVictims();
     }
 
     private void draw() {
@@ -99,7 +99,7 @@ public class Controller implements Initializable {
             gc.setFill(colorOfVictim);
             gc.fillOval(x, y, radiusOfVictim * 2, radiusOfVictim * 2);
         }
-        for (DroneGUIInterface d : drones) {
+        for (VieableDrone d : drones) {
             double x = (d.getX() - d.getViewRangeRadius()) * zoom + canvas.getWidth() / 2;
             double y = (d.getY() - d.getViewRangeRadius()) * zoom + canvas.getWidth() / 2;
             gc.setFill(d.getColor());

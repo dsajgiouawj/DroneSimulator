@@ -57,4 +57,16 @@ public class FiltersManagement {
         }
         return stream;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder res = new StringBuilder("Filters[");
+        for (int i = 0; i < filters.size(); i++) {
+            CallingFilter filter = filters.get(i);
+            res.append(filter.toString());
+            if (i != filters.size() - 1) res.append(",");
+        }
+        res.append("]");
+        return res.toString();
+    }
 }

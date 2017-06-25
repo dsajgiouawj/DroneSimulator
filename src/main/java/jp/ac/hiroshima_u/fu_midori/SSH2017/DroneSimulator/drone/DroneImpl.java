@@ -9,7 +9,7 @@ import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.Victims;
  *
  * @author 遠藤拓斗 on 2017/05/07.
  */
-public class DroneImpl implements Drone, DroneGUIInterface {
+public class DroneImpl implements Drone, VieableDrone {
     private static final double SPEED = 16;//16[m/s]
     private double residualDistance = 0;//このターンの残り距離
     private double theta = 0;//向いている方向[rad]
