@@ -6,7 +6,7 @@
 
     <groupId>jp.ac.hiroshima_u.fu_midori.SSH2017</groupId>
     <artifactId>DroneSimulator</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
