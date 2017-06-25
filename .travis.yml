@@ -1,11 +1,9 @@
 language: java
 sudo: false
-jdk:
-  oraclejdk8
+jdk: oraclejdk8
 addons:
   apt:
-    packages:
-      oracle-java8-installer
+    packages: oracle-java8-installer
 script: mvn clean verify
 after_success:
 - mvn clean test jacoco:report coveralls:report
@@ -14,9 +12,5 @@ before_deploy:
 deploy:
   provider: releases
   api_key:
-    secure: Ucm9JvReChdS2uH6DnfdMbaeJmBN4ldFFThuqG3RJ5UUCbmFLODxPIDYucktWff2qN5e6rHv4bV/L+s5WCRhm3QDyonId9fttARRFlsP0ZFfDrAYwOmUiZYCjKGqrmAi06pCRFNCE8gpej6yhzsklhznTYk36CxRXsaQcE7j4D44b3ljulrbr+RNv79ZQl5OO/VFauraqmlqNntroxrL9szSRHSpM8slIsGXCWloF7LqwpCjVT49kml/l7pAR9wyHa0fr+bgLnqnLh8TfFPxq5lueao2oRv6Njib3vuZDWn7FUNdCYV7InvUwwwsH/GtsSdXvA5FdIIANI5i7dyOuWyyfSuf3GEPF3pMWqfVnWzoiIF0hc8supE2RhoIAV40snrTqGeiNRgdnLUe2Ejo5+2QQ4MVuORg4I8foI1ZNtsLEw61In3zzeVi3yZ27uGkdfObyMDoVfvyDMbMWCNoCbNtNSWaxJTe9ysKstHUG2lRDAfcl+rWDJPhScDiDWShSCJaaFS5ZXoTcqWHZrkbm0yUt3hTE61Of/9kXjEmwhP13jNL7dmwns+qT6Q3d4iy131edu5MXfa4DeyPCr6fLQjp56I6BY5w2p4qifqA66psIE58YfI1322FNxiFaKUDZQY/AiVgBmpVmqAUYqY5dKn9Vki+oxIs/LF/+nEl+Lk=
-  file: target/DroneSimulator$TRAVIS_TAG.jar
-  on:
-    repo: dsajgiouawj/DroneSimulator
-    all_branches: true
-    tags: true
+    secure: Y6FpU4ptKfr/NglV2Kw4ATaXnNdytHf8KhDtDQcihg9bUO9bRE5oV83kxt7emTB6LmwIxqjlFJBkHrF/SzexM3igFkv/pXqBuqBgRQ1mvon1J6eFRvtgcOt9VdsVe2FtjV/0UfflSSt1rcujAR1ee4wN1/WX+yLACv8A1N37TYZ51tLAvSRbnJ381yLKCI4ulpkVa7zxjUFPr2QJOUP2xQLp1soXhh6eXsnikqNoqStMuWOw0P1tRBoonroErQft2TIMaeNhCaZIYg9D85SEhCmYS3bOM+Ku+eBk1De2zETic7Vl/1ioJuhkDa5VZr8mS2gGAX4PwVPh2uLjeQh5u0sByQVQK+Vd9vleHsNhpQulaPGRgbeGxLNVNe5L9Agzpp0p+sFhChURwklszh0ISshSf0pBg+GnyF7kAbGaGK6MkPi7cfAxd0vYOAvB4D6IM190SGHBucmecQoS3p6SuvnOsRBFg4U1asNPu5E/vGAP1eFYv3OI94XqC9nq+FXbDSBFj5RNudfMHOoWPtksqQNMNLA9u//u0lKBdOmjUT/a4lEI2RJe2vvp39ZJrWe+JUY+czE7Aq4+fnBJay8x8pryNhlZtBfDNIB5fkBdCA9WNQxwQ/MJaN47RloMHMys+kY3Nstg8Ll8x8Vy2IRuEv3QmKQa42ciog/vqixWJUQ=
+  file: target/DroneSimulator$TRAVIS_TAG

@@ -27,7 +27,7 @@ public class FilterManagementCUIFrontend {
     public void readInfo(Scanner scanner) {
         System.err.println("呼び出されたことのあるドローンは呼ばない(boolean)");
         removeEverBeenCalledDrones = scanner.nextBoolean();
-        System.err.println("最近呼び出したことのあるドローンは呼ばない(boolean)\n");
+        System.err.println("最近呼び出したことのあるドローンは呼ばない(boolean)");
         removeRecentlyCallDrones = scanner.nextBoolean();
         if (removeRecentlyCallDrones) {
             System.err.println("最近");
