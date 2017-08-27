@@ -50,4 +50,9 @@ public class RemoveRandomly implements CallingFilter {
     public IntStream filter(int id, IntStream stream) {
         return stream.filter(i -> Math.random() < probability);
     }
+
+    @Override
+    public String toString() {
+        return probability + "の確率で呼び出す";
+    }
 }

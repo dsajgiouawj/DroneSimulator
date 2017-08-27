@@ -45,7 +45,7 @@ public class RemoveRecentlyArriveDrones implements CallingFilter {
 
     }
 
-    Point2D target;
+    private Point2D target;
 
     @Override
     public void informCalling(int id) {
@@ -62,5 +62,10 @@ public class RemoveRecentlyArriveDrones implements CallingFilter {
     @Override
     public IntStream filter(int id, IntStream stream) {
         return stream.filter(i -> time >= notCallUntil[i]);
+    }
+
+    @Override
+    public String toString() {
+        return "呼び出されている途中もしくは到着してから" + thresholdTime + "秒未満しか経過していないドローンを除外";
     }
 }

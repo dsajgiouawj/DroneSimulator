@@ -23,6 +23,8 @@ public class Tactics implements ITactics {
     private List<DroneController> drones = new ArrayList<>();
     private SelectCalleeMediator selectCalleeMediator;
     private FiltersManagement fm;
+    private int thresholdTime;
+    private double probability;
 
     /**
      * @param numDrone            ドローンの台数
@@ -44,6 +46,8 @@ public class Tactics implements ITactics {
                 , new RemoveRandomly(probability));
         selectCalleeMediator = new CallingNearestDrones(drones, new Caller(this.drones), numDrone, fm);//全て呼ぶ
         setDrones(drones);
+        this.thresholdTime = thresholdTime;
+        this.probability = probability;
     }
 
     private void setDrones(List<Drone> drones) {
@@ -59,5 +63,11 @@ public class Tactics implements ITactics {
             drone.executeTurn();
         }
         selectCalleeMediator.after();
+    }
+
+    @Override
+    public String toString() {
+        return "ランダムウォーク" + +turnInterval + "秒に一回±" + limitOfTurningAngle + "[rad]の範囲でランダムに旋回"
+                + thresholdTime + "秒以上発見していなければ呼び寄せられる" + "呼び寄せられる確率" + probability + fm;
     }
 }
