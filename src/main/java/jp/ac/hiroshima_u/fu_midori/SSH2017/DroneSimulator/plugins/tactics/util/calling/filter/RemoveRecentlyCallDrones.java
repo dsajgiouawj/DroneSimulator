@@ -13,7 +13,7 @@ import java.util.stream.IntStream;
  */
 public class RemoveRecentlyCallDrones implements CallingFilter {
     private int time = 0;
-    private int[] lastCall = new int[0];//avoid findbugs warning
+    private int[] lastCall;
     private int thresholdTime;
 
     /**

@@ -14,7 +14,6 @@ public interface CallingFilter {
 
     /**
      * id番のドローンがnum人発見した
-     *
      * @param id  id
      * @param num 発見人数
      */
@@ -23,12 +22,22 @@ public interface CallingFilter {
     /**
      * id番のドローンが呼び出しを行った
      *
+     * 呼び出し順序
+     * 1informCalling
+     * 2informBeingCalled
+     * 3実際の呼び出し
+     *
      * @param id id
      */
     void informCalling(int id);
 
     /**
      * id番のドローンが呼び出しを受けた
+     *
+     * 呼び出し順序
+     * 1informCalling
+     * 2informBeingCalled
+     * 3実際の呼び出し
      *
      * @param id id
      */

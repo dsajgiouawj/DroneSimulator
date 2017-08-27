@@ -12,7 +12,7 @@ import java.util.stream.IntStream;
  * @author 遠藤拓斗 on 2017/05/31.
  */
 public class RemoveEverBeenCalledDrones implements CallingFilter {
-    private boolean[] hasEverBeenCalled = new boolean[0];//avoid findbugs warning
+    private boolean[] hasEverBeenCalled;
 
     public RemoveEverBeenCalledDrones(List<Drone> drones) {
         this.hasEverBeenCalled = new boolean[drones.size()];
