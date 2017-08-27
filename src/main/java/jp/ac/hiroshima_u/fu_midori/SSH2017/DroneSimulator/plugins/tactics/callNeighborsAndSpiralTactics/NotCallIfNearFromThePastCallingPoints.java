@@ -2,7 +2,7 @@ package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.callN
 
 import javafx.geometry.Point2D;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.Drone;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.calling.CallingFilter;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.util.calling.CallingFilter;
 
 import java.util.ArrayList;
 import java.util.List;

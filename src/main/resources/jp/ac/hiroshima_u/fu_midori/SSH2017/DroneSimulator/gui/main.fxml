@@ -3,16 +3,38 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" fx:id="vBox_parent" xmlns="http://javafx.com/javafx/8.0.72"
-      fx:controller="jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.gui.Controller">
+      fx:controller="jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.gui.Controller" stylesheets="@stylesheet.css">
     <children>
         <MenuBar>
             <menus>
+                <Menu text="表示">
+                    <items>
+                        <CustomMenuItem hideOnClick="false">
+                            <content>
+                                <HBox>
+                                    <Label text="拡大    " textFill="black"/>
+                                    <Button fx:id="btn_zoomout" text="-" onAction="#onZoomout"/>
+                                    <Label fx:id="label_zoom" text=" 100% " textFill="black"/>
+                                    <Button fx:id="btn_zoomin" text="+" onAction="#onZoomin"/>
+                                </HBox>
+                            </content>
+                        </CustomMenuItem>
+                        <CustomMenuItem hideOnClick="false">
+                            <content>
+                                <HBox>
+                                    <Label text="速度    " textFill="black"/>
+                                    <Button fx:id="btn_speeddown" text="-" onAction="#onSpeeddown"/>
+                                    <Label fx:id="label_speed" text=" 100% " textFill="black"/>
+                                    <Button fx:id="btn_speedup" text="+" onAction="#onSpeedup"/>
+                                </HBox>
+                            </content>
+                        </CustomMenuItem>
+                    </items>
+                </Menu>
             </menus>
         </MenuBar>
         <HBox fx:id="hBox_main" VBox.vgrow="ALWAYS">

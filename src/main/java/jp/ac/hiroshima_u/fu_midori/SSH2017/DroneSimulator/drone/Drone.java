@@ -130,4 +130,6 @@ public interface Drone {
      * @return 速度[m/s]
      */
     double speed();
+
+    double viewRangeRadius();
 }

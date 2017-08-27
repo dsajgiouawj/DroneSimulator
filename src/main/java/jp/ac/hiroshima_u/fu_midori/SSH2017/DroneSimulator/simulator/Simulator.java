@@ -28,7 +28,7 @@ public class Simulator {
     private int population;
     private double viewRangeRadius;
 
-    Simulator(TacticsUIFrontend tacticsUIFrontend, int limitTime, int numDrone, double viewRangeRadius, int population, VictimsPlacerUIFrontend victimsPlacerUIFrontend) {
+    public Simulator(TacticsUIFrontend tacticsUIFrontend, int limitTime, int numDrone, double viewRangeRadius, int population, VictimsPlacerUIFrontend victimsPlacerUIFrontend) {
         this.placer = victimsPlacerUIFrontend.getVictimsPlacer();
         this.victims = placer.placeVictims(population);
         for (int i = 0; i < numDrone; i++) {
@@ -53,6 +53,7 @@ public class Simulator {
             drone.nextTurn();
         }
         tactics.executeTurn();
+        victims.nextTurn();
     }
 
     /**

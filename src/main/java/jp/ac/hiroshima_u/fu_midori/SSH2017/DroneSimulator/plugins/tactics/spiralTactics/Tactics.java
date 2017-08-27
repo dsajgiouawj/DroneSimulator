@@ -1,6 +1,8 @@
 package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.spiralTactics;
 
+import javafx.geometry.Point2D;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.Drone;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.util.ArchimedesSpiral.ArchimedesSpiral;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.tactics.ITactics;
 
 import java.util.ArrayList;
@@ -12,7 +14,7 @@ import java.util.List;
  * @author 遠藤拓斗 on 2017/05/15.
  */
 public class Tactics implements ITactics {
-    private List<DroneController> drones = new ArrayList<>();
+    private List<ArchimedesSpiral> drones = new ArrayList<>();
     private int numDrone;
     private double viewRangeRadius;
     private double searchRatio;
@@ -36,13 +38,13 @@ public class Tactics implements ITactics {
 
     private void setDrones(List<Drone> drones) {
         for (int i = 0; i < drones.size(); i++) {
-            this.drones.add(new DroneController(drones.get(i), numDrone, i, viewRangeRadius, searchRatio));
+            this.drones.add(new ArchimedesSpiral(drones.get(i), numDrone, i, viewRangeRadius, searchRatio, Point2D.ZERO));
         }
     }
 
     @Override
     public void executeTurn() {
-        for (DroneController drone : drones) {
+        for (ArchimedesSpiral drone : drones) {
             drone.executeTurn();
         }
     }

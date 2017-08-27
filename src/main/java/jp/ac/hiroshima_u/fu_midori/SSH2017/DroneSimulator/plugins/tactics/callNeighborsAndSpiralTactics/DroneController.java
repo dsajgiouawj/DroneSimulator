@@ -3,7 +3,8 @@ package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.callN
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.Drone;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.calling.SelectCalleeMediator;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.util.ArchimedesSpiral.ArchimedesSpiral;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.util.calling.SelectCalleeMediator;
 
 import static jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.callNeighborsAndSpiralTactics.DroneState.*;
 
@@ -23,14 +24,13 @@ public class DroneController {
     private DroneState state;
     private int time = 0;
     private Point2D target;
-    private jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.spiralTactics.DroneController spiralTacticsDrone;
+    private ArchimedesSpiral spiralDrone;
     private final double searchRatio2;
-    private final int timeToContinueSpiral2SinceLastFind;
 
     private int nextId;
     private int nextNumDrone;
 
-    public DroneController(Drone drone, int numDrone, int id, double viewRangeRadius, int turnInterval, double limitOfTurningAngle, SelectCalleeMediator selectCalleeMediator, boolean useSpiralAtFirst, double searchRatio, double searchRatio2, int timeToContinueSpiral2SinceLastFind) {
+    public DroneController(Drone drone, int numDrone, int id, double viewRangeRadius, int turnInterval, double limitOfTurningAngle, SelectCalleeMediator selectCalleeMediator, boolean useSpiralAtFirst, double searchRatio, double searchRatio2) {
         this.drone = drone;
         this.numDrone = numDrone;
         this.id = id;
@@ -39,9 +39,8 @@ public class DroneController {
         this.limitOfTurningAngle = limitOfTurningAngle;
         this.selectCalleeMediator = selectCalleeMediator;
         this.state = randomWalking;
-        this.timeToContinueSpiral2SinceLastFind = timeToContinueSpiral2SinceLastFind;
         if (useSpiralAtFirst) this.state = spiral;
-        spiralTacticsDrone = new jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.spiralTactics.DroneController(drone, numDrone, id, viewRangeRadius, searchRatio);
+        spiralDrone = new ArchimedesSpiral(drone, numDrone, id, viewRangeRadius, searchRatio, Point2D.ZERO);
         this.searchRatio2 = searchRatio2;
         drone.setTheta(2 * Math.PI / numDrone * id);//均等な方向に向く
     }
@@ -52,7 +51,7 @@ public class DroneController {
         } else if (state == beingCalled) {
             goTarget();
         } else if (state == spiral) {
-            spiralTacticsDrone.executeTurn();
+            spiralDrone.executeTurn();
             if (drone.getNumOfFoundVictimsWhileThisTurn() > 0)
                 selectCalleeMediator.inform(id, drone.getNumOfFoundVictimsWhileThisTurn());
         } else if (state == spiral2) {
@@ -86,19 +85,8 @@ public class DroneController {
         }
     }
 
-    private int spiral2elapsedTimeSinceLastFind;
-
     private void spiral2() {
-        spiralTacticsDrone.executeTurn();
-        if (drone.getNumOfFoundVictimsWhileThisTurn() == 0) {
-            spiral2elapsedTimeSinceLastFind++;
-        } else {
-            spiral2elapsedTimeSinceLastFind = 0;
-        }
-        if (spiral2elapsedTimeSinceLastFind > timeToContinueSpiral2SinceLastFind) {
-            spiralTacticsDrone = null;
-            setState(randomWalking);
-        }
+        spiralDrone.executeTurn();
     }
 
     public void setState(DroneState state) {
@@ -106,8 +94,7 @@ public class DroneController {
         else if (state == beingCalled) drone.setColor(Color.RED);
         else if (state == spiral2) {
             drone.setColor(Color.YELLOW);
-            spiralTacticsDrone = new jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.spiralTactics.DroneController(drone, nextNumDrone, nextId, viewRangeRadius, searchRatio2, drone.getPoint());
-            spiral2elapsedTimeSinceLastFind = 0;
+            spiralDrone = new ArchimedesSpiral(drone, nextNumDrone, nextId, viewRangeRadius, searchRatio2, drone.getPoint());
         }
         this.state = state;
     }

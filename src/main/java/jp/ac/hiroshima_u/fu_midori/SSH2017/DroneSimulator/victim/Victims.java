@@ -16,6 +16,8 @@ public class Victims {
     private List<Victim> victims = new ArrayList<>();
     private final int population;
     private int foundPopulation;
+    private int[] foundTime;
+    private int time = 0;
 
     /**
      * コンストラクタ
@@ -29,6 +31,18 @@ public class Victims {
         victims.sort(Comparator.comparingDouble(v -> v.getPoint().getX()));
         population = victims.size();
         foundPopulation = 0;
+        foundTime = new int[population];
+        for (int i = 0; i < population; i++) {
+            foundTime[i] = Integer.MAX_VALUE / 10;
+        }
+    }
+
+    public void nextTurn() {
+        time++;
+    }
+
+    public int[] getFoundTime() {
+        return foundTime.clone();
     }
 
     /**
@@ -77,6 +91,7 @@ public class Victims {
                     victim.setFound();
                     numOfFoundVictims++;
                     foundPopulation++;
+                    foundTime[i] = time;
                 }
             }
         }

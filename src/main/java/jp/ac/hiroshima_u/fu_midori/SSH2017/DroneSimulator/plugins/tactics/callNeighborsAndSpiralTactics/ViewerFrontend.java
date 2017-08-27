@@ -6,8 +6,8 @@ import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.Drone;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.gui.controls.DoubleTextFieldWithLabel;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.gui.controls.FormattedTextFieldWithLabel;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.gui.controls.IntTextFieldWithLabel;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.calling.FiltersManagement;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.calling.FiltersManagementViewerFrontend;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.util.calling.FiltersManagement;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.util.calling.FiltersManagementViewerFrontend;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.tactics.ITactics;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.tactics.ITacticsViewerFrontend;
 
@@ -26,7 +26,6 @@ public class ViewerFrontend implements ITacticsViewerFrontend {
     private CheckBox useSpiral = new CheckBox("最初螺線探索をする");
     private FormattedTextFieldWithLabel<Double> searchRatioField = new DoubleTextFieldWithLabel("探索割合(最初の螺線)", 0.5);
     private FormattedTextFieldWithLabel<Double> searchRatio2Field = new DoubleTextFieldWithLabel("探索割合(呼び出された後の螺線)", 1);
-    private FormattedTextFieldWithLabel<Integer> timeToContinueSpiral2SinceLastFind = new IntTextFieldWithLabel("最後に被災者を発見してから\n螺旋探索(呼び出された後)を続ける時間[s]", 300);
 
     private VBox vBoxForFiltersManagement = new VBox();
     private FiltersManagementViewerFrontend fmgi = new FiltersManagementViewerFrontend();
@@ -39,7 +38,6 @@ public class ViewerFrontend implements ITacticsViewerFrontend {
                 useSpiral,
                 searchRatioField,
                 searchRatio2Field,
-                timeToContinueSpiral2SinceLastFind,
                 vBoxForFiltersManagement);
     }
 
@@ -48,7 +46,7 @@ public class ViewerFrontend implements ITacticsViewerFrontend {
         FiltersManagement fm = fmgi.getFiltersManagement(drones);
 
         return new Tactics(numDrone, viewRangeRadius, turnInterval, limitOfTurningAngle,
-                useSpiral.isSelected(), searchRatioField.getValue(), searchRatio2Field.getValue(), drones, fm, certainNumberField.getValue(), timeToContinueSpiral2SinceLastFind.getValue());
+                useSpiral.isSelected(), searchRatioField.getValue(), searchRatio2Field.getValue(), drones, fm, certainNumberField.getValue(), limitTime);
     }
 
     @Override

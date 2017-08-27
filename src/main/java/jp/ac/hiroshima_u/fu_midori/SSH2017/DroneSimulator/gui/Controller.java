@@ -38,6 +38,10 @@ public class Controller implements Initializable {
     public Label label_time;
 */
     @FXML
+    private Label label_zoom;
+    @FXML
+    private Label label_speed;
+    @FXML
     private HBox hBox_main;
     @FXML
     private Canvas canvas;
@@ -54,7 +58,9 @@ public class Controller implements Initializable {
 
     private Simulator simulator;
 
-    private double zoom = 1. / 16;
+    private static final double zoomDefault = 1. / 16;
+    private double zoom = zoomDefault;
+    private double speed = 1.0;
 
     /**
      * javafxのinitialize
@@ -86,11 +92,19 @@ public class Controller implements Initializable {
         victims = simulator.getVieableVictims();
     }
 
+    private double display = 0.0;
+
     private void draw() {
         if (simulator == null) return;
         if (drones == null || victims == null) return;
         clearCanvas();
-        simulator.nextTurn();
+        display += speed;//表示速度によってnextTurnの回数を決める
+        int num = (int) display;
+        display -= num;
+        for (int i = 0; i < num; i++) {
+            simulator.nextTurn();
+        }
+
         GraphicsContext gc = canvas.getGraphicsContext2D();
         for (ViewableVictim v : victims) {
             if (v.isFound()) continue;
@@ -117,5 +131,40 @@ public class Controller implements Initializable {
         GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
         graphicsContext.setFill(Color.BLACK);
         graphicsContext.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+    }
+
+    private int zoomPercentage = 100;
+
+    public void onZoomout(ActionEvent actionEvent) {
+        if (zoomPercentage == 1) return;
+        if (zoomPercentage <= 10) zoomPercentage--;
+        else zoomPercentage -= 10;
+        label_zoom.setText(" " + zoomPercentage + "% ");
+        zoom = zoomDefault * zoomPercentage / 100;
+    }
+
+    public void onZoomin(ActionEvent actionEvent) {
+        if (zoomPercentage < 10) zoomPercentage++;
+        else zoomPercentage += 10;
+        label_zoom.setText(" " + zoomPercentage + "% ");
+        zoom = zoomDefault * zoomPercentage / 100;
+    }
+
+    private int speedPercentage = 100;
+
+    public void onSpeeddown(ActionEvent actionEvent) {
+        if (speedPercentage == 1) return;
+        if (speedPercentage <= 10) speedPercentage--;
+        else speedPercentage -= 10;
+        label_speed.setText(" " + speedPercentage + "% ");
+        speed = speedPercentage / 100.0;
+    }
+
+    public void onSpeedup(ActionEvent actionEvent) {
+        if (speedPercentage >= 1000) return;
+        if (speedPercentage < 10) speedPercentage++;
+        else speedPercentage += 10;
+        label_speed.setText(" " + speedPercentage + "% ");
+        speed = speedPercentage / 100.0;
     }
 }

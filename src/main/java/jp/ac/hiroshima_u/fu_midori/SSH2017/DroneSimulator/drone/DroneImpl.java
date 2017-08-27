@@ -106,6 +106,11 @@ public class DroneImpl implements Drone, VieableDrone {
         return SPEED;
     }
 
+    @Override
+    public double viewRangeRadius() {
+        return viewRangeRadius;
+    }
+
     public Color getColor() {
         return this.color;
     }

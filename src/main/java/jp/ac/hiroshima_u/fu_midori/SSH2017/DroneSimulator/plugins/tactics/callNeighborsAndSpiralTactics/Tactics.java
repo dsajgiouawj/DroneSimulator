@@ -1,9 +1,9 @@
 package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.callNeighborsAndSpiralTactics;
 
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.Drone;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.calling.CallingNearestDrones;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.calling.FiltersManagement;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.calling.SelectCalleeMediator;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.util.calling.CallingNearestDrones;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.util.calling.FiltersManagement;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.util.calling.SelectCalleeMediator;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.tactics.ITactics;
 
 import java.util.ArrayList;
@@ -24,11 +24,10 @@ public class Tactics implements ITactics {
     private boolean useSpiral;
     private double searchRatio;
     private double searchRatio2;
-    private int timeToContinueSpiral2SinceLastFind;
     private int numOfDronesToCall;
     private FiltersManagement fm;
 
-    Tactics(int numDrone, double viewRangeRadius, int turnInterval, double limitOfTurningAngle, boolean useSpiral, double searchRatio, double searchRatio2, List<Drone> drones, FiltersManagement filtersManagement, int numOfDronesToCall, int timeToContinueSpiral2SinceLastFind) {
+    Tactics(int numDrone, double viewRangeRadius, int turnInterval, double limitOfTurningAngle, boolean useSpiral, double searchRatio, double searchRatio2, List<Drone> drones, FiltersManagement filtersManagement, int numOfDronesToCall, int limitTime) {
         this.numDrone = numDrone;
         this.viewRangeRadius = viewRangeRadius;
         this.turnInterval = turnInterval;
@@ -37,18 +36,18 @@ public class Tactics implements ITactics {
         this.searchRatio = searchRatio;
         this.searchRatio2 = searchRatio2;
         this.selectCalleeMediator = new CallingNearestDrones(drones, new Caller(this.drones), numOfDronesToCall, filtersManagement);
-        this.timeToContinueSpiral2SinceLastFind = timeToContinueSpiral2SinceLastFind;
         setDrones(drones);
         filtersManagement.addFilter(new RemoveSpiral2OrBeingCalledDrone(this.drones));
-        filtersManagement.addFilter(new NotCallIfNearFromThePastCallingPoints(drones,
-                Math.sqrt(viewRangeRadius * 2 * drones.get(0).speed() * timeToContinueSpiral2SinceLastFind * numOfDronesToCall / Math.PI)));
+        //filtersManagement.addFilter(new NotCallIfNearFromThePastCallingPoints(drones,
+        //        Math.sqrt(viewRangeRadius * 2 * drones.get(0).speed() * timeToContinueSpiral2SinceLastFind * numOfDronesToCall / Math.PI)));
+        filtersManagement.addFilter(new NotCallIfOverlap(drones, limitTime, numOfDronesToCall));
         this.numOfDronesToCall = numOfDronesToCall;
         this.fm = filtersManagement;
     }
 
     private void setDrones(List<Drone> drones) {
         for (int i = 0; i < drones.size(); i++) {
-            this.drones.add(new DroneController(drones.get(i), numDrone, i, viewRangeRadius, turnInterval, limitOfTurningAngle, selectCalleeMediator, useSpiral, searchRatio, searchRatio2, timeToContinueSpiral2SinceLastFind));
+            this.drones.add(new DroneController(drones.get(i), numDrone, i, viewRangeRadius, turnInterval, limitOfTurningAngle, selectCalleeMediator, useSpiral, searchRatio, searchRatio2));
         }
     }
 
