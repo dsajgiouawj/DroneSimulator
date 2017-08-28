@@ -51,24 +51,20 @@ public class Placer implements VictimsPlacer {
     }
 
     private Point2D generatePointInCircle(Point2D center, double radius) {
-        double x = Math.random() * radius * 2 - radius;
-        double y = Math.random() * radius * 2 - radius;
-        if (x * x + y * y <= radius * radius) return new Point2D(x + center.getX(), y + center.getY());
-        else return generatePointInCircle(center, radius);
+        double r = Math.sqrt(Math.random()) * radius;
+        double theta = Math.random() * 2 * Math.PI;
+        return new Point2D(center.getX() + r * Math.cos(theta), center.getY() + r * Math.sin(theta));
     }
 
     private List<Point2D> generateCircleInRange(int numOfVictims) {
         List<Point2D> points = new ArrayList<>();
-        double x = Math.random() * radiusOfCenterRange * 2 - radiusOfCenterRange;
-        double y = Math.random() * radiusOfCenterRange * 2 - radiusOfCenterRange;
-        if (x * x + y * y <= radiusOfCenterRange * radiusOfCenterRange) {
-            x += centerOfRange.getX();
-            y += centerOfRange.getY();
-            for (int i = 0; i < numOfVictims; i++) {
-                points.add(generatePointInCircle(new Point2D(x, y), radiusOfCircles));
-            }
-        } else {
-            return generateCircleInRange(numOfVictims);
+        double r = Math.sqrt(Math.random()) * radiusOfCenterRange;
+        double theta = Math.random() * 2 * Math.PI;
+        double x = centerOfRange.getX() + r * Math.cos(theta);
+        double y = centerOfRange.getY() + r * Math.sin(theta);
+        Point2D centerOfCircle = new Point2D(x, y);
+        for (int i = 0; i < numOfVictims; i++) {
+            points.add(generatePointInCircle(centerOfCircle, radiusOfCircles));
         }
         return points;
     }

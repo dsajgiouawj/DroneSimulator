@@ -31,10 +31,9 @@ public class Placer implements VictimsPlacer {
     }
 
     private Point2D generatePoint() {
-        double x = Math.random() * radius * 2 - radius;
-        double y = Math.random() * radius * 2 - radius;
-        if (x * x + y * y <= radius * radius) return new Point2D(x + center.getX(), y + center.getY());
-        else return generatePoint();
+        double r = Math.sqrt(Math.random()) * radius;
+        double theta = Math.random() * 2 * Math.PI;
+        return new Point2D(center.getX() + r * Math.cos(theta), center.getY() + r * Math.sin(theta));
     }
 
     @Override
