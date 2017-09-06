@@ -1,11 +1,11 @@
-package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.callNeighborsAndSpiralTactics;
+package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.randomAndSpiralTactics;
 
 import javafx.geometry.Point2D;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.util.calling.ICaller;
 
 import java.util.List;
 
-import static jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.callNeighborsAndSpiralTactics.DroneState.beingCalled;
+import static jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.randomAndSpiralTactics.DroneState.beingCalled;
 
 /**
  * ドローンを呼び寄せ螺線探索をさせる。

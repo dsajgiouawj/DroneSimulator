@@ -1,4 +1,4 @@
-package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.callNeighborsAndSpiralTactics;
+package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.randomAndSpiralTactics;
 
 import javafx.geometry.Point2D;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.Drone;

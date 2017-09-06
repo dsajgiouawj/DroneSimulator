@@ -1,4 +1,4 @@
-package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.callNeighborsAndSpiralTactics;
+package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.randomAndSpiralTactics;
 
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.VBox;
@@ -26,6 +26,7 @@ public class ViewerFrontend implements ITacticsViewerFrontend {
     private CheckBox useSpiral = new CheckBox("最初螺線探索をする");
     private FormattedTextFieldWithLabel<Double> searchRatioField = new DoubleTextFieldWithLabel("探索割合(最初の螺線)", 0.5);
     private FormattedTextFieldWithLabel<Double> searchRatio2Field = new DoubleTextFieldWithLabel("探索割合(呼び出された後の螺線)", 1);
+    private FormattedTextFieldWithLabel<Integer> timeToContinueSpiralField = new IntTextFieldWithLabel("最後に発見してから螺旋探索を続ける時間", 300);
 
     private VBox vBoxForFiltersManagement = new VBox();
     private FiltersManagementViewerFrontend fmgi = new FiltersManagementViewerFrontend();
@@ -38,6 +39,7 @@ public class ViewerFrontend implements ITacticsViewerFrontend {
                 useSpiral,
                 searchRatioField,
                 searchRatio2Field,
+                timeToContinueSpiralField,
                 vBoxForFiltersManagement);
     }
 
@@ -46,7 +48,7 @@ public class ViewerFrontend implements ITacticsViewerFrontend {
         FiltersManagement fm = fmgi.getFiltersManagement(drones);
 
         return new Tactics(numDrone, viewRangeRadius, turnInterval, limitOfTurningAngle,
-                useSpiral.isSelected(), searchRatioField.getValue(), searchRatio2Field.getValue(), drones, fm, certainNumberField.getValue(), limitTime);
+                useSpiral.isSelected(), searchRatioField.getValue(), searchRatio2Field.getValue(), drones, fm, certainNumberField.getValue(), limitTime, timeToContinueSpiralField.getValue());
     }
 
     @Override

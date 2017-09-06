@@ -1,4 +1,4 @@
-package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.callNeighborsAndSpiralTactics;
+package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.randomAndSpiralTactics;
 
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
@@ -6,7 +6,7 @@ import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.Drone;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.util.ArchimedesSpiral.ArchimedesSpiral;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.util.calling.SelectCalleeMediator;
 
-import static jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.callNeighborsAndSpiralTactics.DroneState.*;
+import static jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.randomAndSpiralTactics.DroneState.*;
 
 /**
  * RandomAndCallNeighborsAndThenSpiralTactics用のドローン
@@ -30,7 +30,23 @@ public class DroneController {
     private int nextId;
     private int nextNumDrone;
 
-    public DroneController(Drone drone, int numDrone, int id, double viewRangeRadius, int turnInterval, double limitOfTurningAngle, SelectCalleeMediator selectCalleeMediator, boolean useSpiralAtFirst, double searchRatio, double searchRatio2) {
+    private int lastFindTime = 0;
+    private final int timeToContinueSpiral;
+
+    /**
+     * @param drone
+     * @param numDrone
+     * @param id
+     * @param viewRangeRadius
+     * @param turnInterval
+     * @param limitOfTurningAngle
+     * @param selectCalleeMediator
+     * @param useSpiralAtFirst     最初螺線探索をするか
+     * @param searchRatio          最初の螺線探索の探索割合
+     * @param searchRatio2         発見後の螺線探索の探索割合
+     * @param timeToContinueSpiral 最後に被災者を発見してから螺線探索を続ける時間
+     */
+    public DroneController(Drone drone, int numDrone, int id, double viewRangeRadius, int turnInterval, double limitOfTurningAngle, SelectCalleeMediator selectCalleeMediator, boolean useSpiralAtFirst, double searchRatio, double searchRatio2, int timeToContinueSpiral) {
         this.drone = drone;
         this.numDrone = numDrone;
         this.id = id;
@@ -43,6 +59,7 @@ public class DroneController {
         spiralDrone = new ArchimedesSpiral(drone, numDrone, id, viewRangeRadius, searchRatio, Point2D.ZERO);
         this.searchRatio2 = searchRatio2;
         drone.setTheta(2 * Math.PI / numDrone * id);//均等な方向に向く
+        this.timeToContinueSpiral = timeToContinueSpiral;
     }
 
     public void executeTurn() {
@@ -52,8 +69,9 @@ public class DroneController {
             goTarget();
         } else if (state == spiral) {
             spiralDrone.executeTurn();
-            if (drone.getNumOfFoundVictimsWhileThisTurn() > 0)
+            if (drone.getNumOfFoundVictimsWhileThisTurn() > 0) {
                 selectCalleeMediator.inform(id, drone.getNumOfFoundVictimsWhileThisTurn());
+            }
         } else if (state == spiral2) {
             spiral2();
         } else {
@@ -87,6 +105,11 @@ public class DroneController {
 
     private void spiral2() {
         spiralDrone.executeTurn();
+        if (drone.getNumOfFoundVictimsWhileThisTurn() > 0) {
+            lastFindTime = time;
+        } else if (time >= lastFindTime + timeToContinueSpiral) {
+            setState(randomWalking);
+        }
     }
 
     public void setState(DroneState state) {
@@ -95,6 +118,7 @@ public class DroneController {
         else if (state == spiral2) {
             drone.setColor(Color.YELLOW);
             spiralDrone = new ArchimedesSpiral(drone, nextNumDrone, nextId, viewRangeRadius, searchRatio2, drone.getPoint());
+            lastFindTime = time;//見つけたことにしておいて直後に螺線探索が終了するのを防ぐ
         }
         this.state = state;
     }

@@ -1,4 +1,4 @@
-package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.callNeighborsAndSpiralTactics;
+package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.randomAndSpiralTactics;
 
 import javafx.geometry.Point2D;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.DroneImpl;
@@ -39,7 +39,7 @@ public class DroneControllerTest {
 
         @Before
         public void setUp() throws Exception {
-            sut = new DroneController(droneSpy, NUM_DRONE, ID, VIEW_RANGE_RADIUS, TURN_INTERVAL, LIMIT_OF_TURNING_ANGLE, selectCalleeMediator, true, SEARCH_RATIO, 0.5);
+            sut = new DroneController(droneSpy, NUM_DRONE, ID, VIEW_RANGE_RADIUS, TURN_INTERVAL, LIMIT_OF_TURNING_ANGLE, selectCalleeMediator, true, SEARCH_RATIO, 0.5, 10000);
             droneSpy.nextTurn();
         }
 
@@ -89,7 +89,7 @@ public class DroneControllerTest {
 
         @Before
         public void setUp() throws Exception {
-            sut = new DroneController(droneSpy, NUM_DRONE, ID, VIEW_RANGE_RADIUS, TURN_INTERVAL, LIMIT_OF_TURNING_ANGLE, selectCalleeMediator, false, 0.5, 0.5);
+            sut = new DroneController(droneSpy, NUM_DRONE, ID, VIEW_RANGE_RADIUS, TURN_INTERVAL, LIMIT_OF_TURNING_ANGLE, selectCalleeMediator, false, 0.5, 0.5, 10000);
             droneSpy.nextTurn();
         }
 
@@ -142,7 +142,7 @@ public class DroneControllerTest {
 
         @Before
         public void setUp() throws Exception {
-            sut = new DroneController(droneSpy, NUM_DRONE, ID, VIEW_RANGE_RADIUS, TURN_INTERVAL, LIMIT_OF_TURNING_ANGLE, selectCalleeMediator, false, 0.5, 0.5);
+            sut = new DroneController(droneSpy, NUM_DRONE, ID, VIEW_RANGE_RADIUS, TURN_INTERVAL, LIMIT_OF_TURNING_ANGLE, selectCalleeMediator, false, 0.5, 0.5, 10000);
             droneSpy.nextTurn();
             sut.setState(DroneState.beingCalled);
             sut.setNextSettings(0, 5);
@@ -183,21 +183,18 @@ public class DroneControllerTest {
 
     public static class spiral2の時 {
         private DroneController sut;
-        private DroneImpl drone = new DroneImpl(VIEW_RANGE_RADIUS, new Victims(new ArrayList<>()));
+        private final Point2D spiral2Center = new Point2D(100, 200);
+        private DroneImpl drone = new DroneImpl(VIEW_RANGE_RADIUS, new Victims(new ArrayList<>()), spiral2Center);
         private DroneImpl droneSpy = spy(drone);
         private SelectCalleeMediator selectCalleeMediator = mock(CallingNearestDrones.class);
         private final double SEARCH_RATIO2 = 1.0;
         private final int spiral2ID = 2;
         private final int spiral2NumDrone = 5;
-        private final Point2D spiral2Center = new Point2D(100, 200);
+        private final int timeToContinueSpiral = 500;
 
         @Before
         public void setUp() throws Exception {
-            sut = new DroneController(droneSpy, NUM_DRONE, ID, VIEW_RANGE_RADIUS, TURN_INTERVAL, LIMIT_OF_TURNING_ANGLE, selectCalleeMediator, false, 0.5, SEARCH_RATIO2);
-            while (!droneSpy.canMove()) {
-                droneSpy.nextTurn();
-                droneSpy.goToPoint(spiral2Center);
-            }
+            sut = new DroneController(droneSpy, NUM_DRONE, ID, VIEW_RANGE_RADIUS, TURN_INTERVAL, LIMIT_OF_TURNING_ANGLE, selectCalleeMediator, false, 0.5, SEARCH_RATIO2, timeToContinueSpiral);
             sut.setNextSettings(spiral2ID, spiral2NumDrone);
             sut.setState(DroneState.spiral2);
             droneSpy.nextTurn();
@@ -207,16 +204,26 @@ public class DroneControllerTest {
         public void executeTurnを実行すると螺線探索() throws Exception {
             sut.executeTurn();
             Point2D actual = sut.getPoint();
-            DroneImpl droneForSpiral = new DroneImpl(VIEW_RANGE_RADIUS, new Victims(new ArrayList<>()));
-            while (!droneForSpiral.canMove()) {
-                droneForSpiral.nextTurn();
-                droneForSpiral.goToPoint(spiral2Center);
-            }
-            droneForSpiral.nextTurn();
-            ArchimedesSpiral spiralDrone = new ArchimedesSpiral(droneForSpiral, spiral2NumDrone, spiral2ID, VIEW_RANGE_RADIUS, SEARCH_RATIO2, spiral2Center);
-            spiralDrone.executeTurn();
-            Point2D expected = droneForSpiral.getPoint();
+            Point2D expected = ArchimedesSpiral.simulate(spiral2NumDrone, spiral2ID, VIEW_RANGE_RADIUS, SEARCH_RATIO2, spiral2Center, 1);
             assertThat(actual, is(expected));
+        }
+
+        @Test
+        public void 被災者を一定時間発見しないとランダムに戻る() throws Exception {
+            for (int i = 0; i < timeToContinueSpiral - 1; i++) {
+                sut.executeTurn();
+                assertThat(sut.getState(), is(DroneState.spiral2));
+            }
+            when(droneSpy.getNumOfFoundVictimsWhileThisTurn()).thenReturn(1);
+            sut.executeTurn();
+            assertThat(sut.getState(), is(DroneState.spiral2));
+            when(droneSpy.getNumOfFoundVictimsWhileThisTurn()).thenReturn(0);
+            for (int i = 0; i < timeToContinueSpiral - 1; i++) {
+                sut.executeTurn();
+                assertThat(sut.getState(), is(DroneState.spiral2));
+            }
+            sut.executeTurn();
+            assertThat(sut.getState(), is(DroneState.randomWalking));
         }
 
         @Test

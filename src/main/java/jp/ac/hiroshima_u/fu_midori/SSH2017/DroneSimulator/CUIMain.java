@@ -28,6 +28,7 @@ public class CUIMain {
         System.err.println("回数,simulator情報,placer情報,tactics情報,data...");
         System.err.println("実行中");
         for (int i = 0; i < times; i++) {
+            System.err.println(i);
             Simulator simulator = simulatorCUIFrontend.getSimulator();
             simulator.runThrough();
             int numOfFoundVictims = simulator.getVictims().foundPopulation();

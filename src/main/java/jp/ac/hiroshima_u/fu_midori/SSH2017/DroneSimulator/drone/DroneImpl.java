@@ -21,8 +21,14 @@ public class DroneImpl implements Drone, VieableDrone {
     private int numOfFoundVictimsWhileThisTurn = 0;
 
     public DroneImpl(double viewRangeRadius, Victims victims) {
+        this(viewRangeRadius, victims, Point2D.ZERO);
+    }
+
+    public DroneImpl(double viewRangeRadius, Victims victims, Point2D initialPoint) {
         this.viewRangeRadius = viewRangeRadius;
         this.victims = victims;
+        this.point = initialPoint;
+        this.point0 = initialPoint;
     }
 
     public void goStraight() {
