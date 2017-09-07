@@ -3,7 +3,7 @@ package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.rando
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.Drone;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.util.ArchimedesSpiral.ArchimedesSpiral;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.util.ArchimedesSpiral.ArchimedeanSpiral;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.util.calling.SelectCalleeMediator;
 
 import static jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.randomAndSpiralTactics.DroneState.*;
@@ -24,7 +24,7 @@ public class DroneController {
     private DroneState state;
     private int time = 0;
     private Point2D target;
-    private ArchimedesSpiral spiralDrone;
+    private ArchimedeanSpiral spiralDrone;
     private final double searchRatio2;
 
     private int nextId;
@@ -56,7 +56,7 @@ public class DroneController {
         this.selectCalleeMediator = selectCalleeMediator;
         this.state = randomWalking;
         if (useSpiralAtFirst) this.state = spiral;
-        spiralDrone = new ArchimedesSpiral(drone, numDrone, id, viewRangeRadius, searchRatio, Point2D.ZERO);
+        spiralDrone = new ArchimedeanSpiral(drone, numDrone, id, viewRangeRadius, searchRatio);
         this.searchRatio2 = searchRatio2;
         drone.setTheta(2 * Math.PI / numDrone * id);//均等な方向に向く
         this.timeToContinueSpiral = timeToContinueSpiral;
@@ -117,7 +117,7 @@ public class DroneController {
         else if (state == beingCalled) drone.setColor(Color.RED);
         else if (state == spiral2) {
             drone.setColor(Color.YELLOW);
-            spiralDrone = new ArchimedesSpiral(drone, nextNumDrone, nextId, viewRangeRadius, searchRatio2, drone.getPoint());
+            spiralDrone = new ArchimedeanSpiral(drone, nextNumDrone, nextId, viewRangeRadius, searchRatio2);
             lastFindTime = time;//見つけたことにしておいて直後に螺線探索が終了するのを防ぐ
         }
         this.state = state;

@@ -2,7 +2,7 @@ package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.rando
 
 import javafx.geometry.Point2D;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.DroneImpl;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.util.ArchimedesSpiral.ArchimedesSpiral;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.util.ArchimedesSpiral.ArchimedeanSpiral;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.util.calling.CallingNearestDrones;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.util.calling.SelectCalleeMediator;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.victim.Victims;
@@ -54,7 +54,7 @@ public class DroneControllerTest {
             sut.executeTurn();
             Point2D actual = sut.getPoint();
             DroneImpl droneForSpiral = new DroneImpl(VIEW_RANGE_RADIUS, new Victims(new ArrayList<>()));
-            ArchimedesSpiral spiralDrone = new ArchimedesSpiral(droneForSpiral, NUM_DRONE, ID, VIEW_RANGE_RADIUS, SEARCH_RATIO, Point2D.ZERO);
+            ArchimedeanSpiral spiralDrone = new ArchimedeanSpiral(droneForSpiral, NUM_DRONE, ID, VIEW_RANGE_RADIUS, SEARCH_RATIO);
             droneForSpiral.nextTurn();
             spiralDrone.executeTurn();
             Point2D expected = droneForSpiral.getPoint();
@@ -204,7 +204,7 @@ public class DroneControllerTest {
         public void executeTurnを実行すると螺線探索() throws Exception {
             sut.executeTurn();
             Point2D actual = sut.getPoint();
-            Point2D expected = ArchimedesSpiral.simulate(spiral2NumDrone, spiral2ID, VIEW_RANGE_RADIUS, SEARCH_RATIO2, spiral2Center, 1);
+            Point2D expected = ArchimedeanSpiral.simulate(spiral2NumDrone, spiral2ID, VIEW_RANGE_RADIUS, SEARCH_RATIO2, spiral2Center, 1);
             assertThat(actual, is(expected));
         }
 

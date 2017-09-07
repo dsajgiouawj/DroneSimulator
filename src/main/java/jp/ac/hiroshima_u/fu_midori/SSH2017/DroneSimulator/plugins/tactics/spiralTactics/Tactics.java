@@ -1,8 +1,7 @@
 package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.spiralTactics;
 
-import javafx.geometry.Point2D;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.Drone;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.util.ArchimedesSpiral.ArchimedesSpiral;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.util.ArchimedesSpiral.ArchimedeanSpiral;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.tactics.ITactics;
 
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ import java.util.List;
  * @author 遠藤拓斗 on 2017/05/15.
  */
 public class Tactics implements ITactics {
-    private List<ArchimedesSpiral> drones = new ArrayList<>();
+    private List<ArchimedeanSpiral> drones = new ArrayList<>();
     private int numDrone;
     private double viewRangeRadius;
     private double searchRatio;
@@ -38,13 +37,13 @@ public class Tactics implements ITactics {
 
     private void setDrones(List<Drone> drones) {
         for (int i = 0; i < drones.size(); i++) {
-            this.drones.add(new ArchimedesSpiral(drones.get(i), numDrone, i, viewRangeRadius, searchRatio, Point2D.ZERO));
+            this.drones.add(new ArchimedeanSpiral(drones.get(i), numDrone, i, viewRangeRadius, searchRatio));
         }
     }
 
     @Override
     public void executeTurn() {
-        for (ArchimedesSpiral drone : drones) {
+        for (ArchimedeanSpiral drone : drones) {
             drone.executeTurn();
         }
     }

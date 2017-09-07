@@ -2,7 +2,7 @@ package jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.rando
 
 import javafx.geometry.Point2D;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.drone.Drone;
-import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.util.ArchimedesSpiral.ArchimedesSpiral;
+import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.util.ArchimedesSpiral.ArchimedeanSpiral;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.plugins.tactics.util.calling.CallingFilter;
 import jp.ac.hiroshima_u.fu_midori.SSH2017.DroneSimulator.util.Pair;
 
@@ -29,7 +29,7 @@ public class NotCallIfOverlap implements CallingFilter {
         this.limitTime = limitTime;
         double viewRangeRadius = drones.get(0).viewRangeRadius();
         this.timeToContinueSpiral = timeToContinueSpiral;
-        distanceList = ArchimedesSpiral.simulatePassingPoints(numOfDronesToCall, 0, viewRangeRadius, 1, Point2D.ZERO, timeToContinueSpiral).stream().map(Point2D.ZERO::distance).collect(Collectors.toList());
+        distanceList = ArchimedeanSpiral.simulatePassingPoints(numOfDronesToCall, 0, viewRangeRadius, 1, Point2D.ZERO, timeToContinueSpiral).stream().map(Point2D.ZERO::distance).collect(Collectors.toList());
     }
 
     @Override

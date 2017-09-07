@@ -17,8 +17,8 @@ import static org.junit.Assert.assertThat;
  *
  * @author 遠藤拓斗 on 2017/08/25.
  */
-public class ArchimedesSpiralTest {
-    private ArchimedesSpiral sut;
+public class ArchimedeanSpiralTest {
+    private ArchimedeanSpiral sut;
     private DroneImpl drone;
     private final double VIEW_RANGE_RADIUS = 10;
     private Victims victims = new Victims(new ArrayList<>());
@@ -26,7 +26,7 @@ public class ArchimedesSpiralTest {
     @Test
     public void executeTurnで動く() throws Exception {
         drone = new DroneImpl(VIEW_RANGE_RADIUS, victims);
-        sut = new ArchimedesSpiral(drone, 1, 0, VIEW_RANGE_RADIUS, 1, Point2D.ZERO);
+        sut = new ArchimedeanSpiral(drone, 1, 0, VIEW_RANGE_RADIUS, 1);
         drone.nextTurn();
         sut.executeTurn();
         assertThat(drone.getPoint().getX(), is(not(closeTo(0, 0.000001))));
@@ -39,7 +39,7 @@ public class ArchimedesSpiralTest {
     @Test
     public void searchRatioを1にしたとき正常に動く() throws Exception {
         drone = new DroneImpl(VIEW_RANGE_RADIUS, victims);
-        sut = new ArchimedesSpiral(drone, 1, 0, VIEW_RANGE_RADIUS, 1, Point2D.ZERO);
+        sut = new ArchimedeanSpiral(drone, 1, 0, VIEW_RANGE_RADIUS, 1);
         for (int time = 0; time < LIMIT_TIME; time++) {
             drone.nextTurn();
             sut.executeTurn();
@@ -53,7 +53,7 @@ public class ArchimedesSpiralTest {
     @Test
     public void searchRatioを05にしたとき正常に動く() throws Exception {
         drone = new DroneImpl(VIEW_RANGE_RADIUS, victims);
-        sut = new ArchimedesSpiral(drone, 1, 0, VIEW_RANGE_RADIUS, 0.5, Point2D.ZERO);
+        sut = new ArchimedeanSpiral(drone, 1, 0, VIEW_RANGE_RADIUS, 0.5);
         for (int time = 0; time < LIMIT_TIME; time++) {
             drone.nextTurn();
             sut.executeTurn();
@@ -68,12 +68,12 @@ public class ArchimedesSpiralTest {
     public void searchRatioを1にしたときsimulateが正しい() throws Exception {
         Point2D center = new Point2D(10, 20);
         drone = new DroneImpl(VIEW_RANGE_RADIUS, victims, center);
-        sut = new ArchimedesSpiral(drone, 1, 0, VIEW_RANGE_RADIUS, 1, center);
+        sut = new ArchimedeanSpiral(drone, 1, 0, VIEW_RANGE_RADIUS, 1);
         for (int time = 0; time < LIMIT_TIME; time++) {
             drone.nextTurn();
             sut.executeTurn();
         }
-        Point2D actual = ArchimedesSpiral.simulate(1, 0, VIEW_RANGE_RADIUS, 1, center, LIMIT_TIME);
+        Point2D actual = ArchimedeanSpiral.simulate(1, 0, VIEW_RANGE_RADIUS, 1, center, LIMIT_TIME);
         assertThat(actual.getX(), is(drone.getX()));
         assertThat(actual.getY(), is(drone.getY()));
     }
@@ -82,12 +82,12 @@ public class ArchimedesSpiralTest {
     public void searchRatioを05にしたときsimulateが正しい() throws Exception {
         Point2D center = new Point2D(10, 20);
         drone = new DroneImpl(VIEW_RANGE_RADIUS, victims, center);
-        sut = new ArchimedesSpiral(drone, 1, 0, VIEW_RANGE_RADIUS, 0.5, center);
+        sut = new ArchimedeanSpiral(drone, 1, 0, VIEW_RANGE_RADIUS, 0.5);
         for (int time = 0; time < LIMIT_TIME; time++) {
             drone.nextTurn();
             sut.executeTurn();
         }
-        Point2D actual = ArchimedesSpiral.simulate(1, 0, VIEW_RANGE_RADIUS, 0.5, center, LIMIT_TIME);
+        Point2D actual = ArchimedeanSpiral.simulate(1, 0, VIEW_RANGE_RADIUS, 0.5, center, LIMIT_TIME);
         assertThat(actual.getX(), is(drone.getX()));
         assertThat(actual.getY(), is(drone.getY()));
     }
